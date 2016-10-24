@@ -7,5 +7,4 @@ This example show how to work with UCS server using https://www.nuget.org/packag
 2. Start UgCS service manager
 3. Lauch project from Visual Studio
 	</content>
-  <tabTrigger>readme</tabTrigger>
 </snippet>
