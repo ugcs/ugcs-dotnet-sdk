@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UGCS.Example", "UGCS.Example\UGCS.Example.csproj", "{164C6C4A-1E77-4183-AD9E-06B4B88FC47F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{A870A328-8D5E-42C8-A02F-FEB4F8BE6444}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MapControl", "MapControl", "{313413EC-BAC9-4B8A-9BDD-C3A09E9B310B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapControl.WPF", "MapControl\MapControl.WPF.csproj", "{226F3575-B683-446D-A2F0-181291DC8787}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UGCS.Console", "UGCS.Console\UGCS.Console.csproj", "{94DDF615-2F18-4765-92F4-AD457E86A43C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{164C6C4A-1E77-4183-AD9E-06B4B88FC47F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164C6C4A-1E77-4183-AD9E-06B4B88FC47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164C6C4A-1E77-4183-AD9E-06B4B88FC47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164C6C4A-1E77-4183-AD9E-06B4B88FC47F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A870A328-8D5E-42C8-A02F-FEB4F8BE6444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A870A328-8D5E-42C8-A02F-FEB4F8BE6444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A870A328-8D5E-42C8-A02F-FEB4F8BE6444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A870A328-8D5E-42C8-A02F-FEB4F8BE6444}.Release|Any CPU.Build.0 = Release|Any CPU
+		{226F3575-B683-446D-A2F0-181291DC8787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{226F3575-B683-446D-A2F0-181291DC8787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{226F3575-B683-446D-A2F0-181291DC8787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{226F3575-B683-446D-A2F0-181291DC8787}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94DDF615-2F18-4765-92F4-AD457E86A43C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94DDF615-2F18-4765-92F4-AD457E86A43C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94DDF615-2F18-4765-92F4-AD457E86A43C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94DDF615-2F18-4765-92F4-AD457E86A43C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{226F3575-B683-446D-A2F0-181291DC8787} = {313413EC-BAC9-4B8A-9BDD-C3A09E9B310B}
+	EndGlobalSection
+EndGlobal
