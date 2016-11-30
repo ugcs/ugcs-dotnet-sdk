@@ -29,6 +29,7 @@
                 <StackPanel Grid.Column="0" TextBlock.FontSize="15" TextBlock.FontWeight="Bold">
                     <TextBlock Text="Vehicle Name"/>
                     <TextBlock Text="Vehicle Status"/>
+                    <TextBlock Text="Battery, V"/>
                     <TextBlock Text="Ground Speed"/>
                     <TextBlock Text="Vertical Speed"/>
                     <TextBlock Text="Latitude"/>
@@ -36,11 +37,12 @@
                     <TextBlock Text="Sattelites Visible"/>
                     <TextBlock Text="Altitude AGL"/>
                     <TextBlock Text="GPS Fix"/>
-                    <TextBlock Text="Down Link"/>
+                    <TextBlock Text="DownLink"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" TextBlock.FontSize="15" TextBlock.FontWeight="Bold">
                     <TextBlock Text="{Binding VehicleName}" />
                     <TextBlock Text="{Binding ClientVehicle.Telemetry.VehicleMode}" />
+                    <TextBlock Text="{Binding ClientVehicle.Telemetry.BatteryValue}" />
                     <TextBlock Text="{Binding ClientVehicle.Telemetry.GroundSpeed, Converter={StaticResource MetersSecConverter}}" />
                     <TextBlock Text="{Binding ClientVehicle.Telemetry.VerticalSpeed, Converter={StaticResource MetersSecConverter}}" />
                     <TextBlock Text="{Binding ClientVehicle.Telemetry.Latitude, Converter={StaticResource WGS84Converter}}" />
