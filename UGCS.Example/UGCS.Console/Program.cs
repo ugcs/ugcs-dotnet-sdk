@@ -42,6 +42,30 @@ namespace UGCS.Console
             var loginResponcetask = messageExecutor.Submit<LoginResponse>(loginRequest);
             loginResponcetask.Wait();
 
+            // Click&Go example
+            var sendCommandRequest = new SendCommandRequest
+            {
+                ClientId = clientId,
+                Command = new UGCS.Sdk.Protocol.Encoding.Command
+                {
+                    Code = "waypoint",
+                    Subsystem = Subsystem.S_FLIGHT_CONTROLLER
+                }
+            };
+
+            sendCommandRequest.Command.Arguments.AddRange(new CommandArgument[] {
+									new CommandArgument { Code = "latitude", Value = new Value { DoubleValue = 0.994445232147517 }},
+									new CommandArgument { Code = "longitude", Value = new Value { DoubleValue = 0.4201742565140717 }},
+									new CommandArgument { Code = "altitude_agl", Value = new Value { DoubleValue = 5.0 }},
+									new CommandArgument { Code = "ground_speed", Value = new Value { DoubleValue = 5.0 }},
+									new CommandArgument { Code = "heading", Value = new Value { DoubleValue = 0.017453292519943295 }}
+								});
+
+            sendCommandRequest.Vehicles.Add(new Vehicle { Id = 2 });
+
+            var sendCommandResponse = messageExecutor.Submit<SendCommandResponse>(sendCommandRequest);
+            sendCommandResponse.Wait();
+
             //Get all vehicles
             GetObjectListRequest getObjectListRequest = new GetObjectListRequest()
             {
