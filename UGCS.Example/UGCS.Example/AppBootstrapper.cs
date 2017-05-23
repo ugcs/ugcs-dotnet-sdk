@@ -70,7 +70,7 @@ namespace UGCS.Example
                 int timeout = 10 * 1000;
                 Type[] transferTypes = new[] {
 							typeof(ExportRouteToXmlRequest),
-							typeof(ImportRouteFromXmlRequest),
+							typeof(ImportRouteRequest),
 							typeof(ExportMissionToXmlRequest),
 							typeof(ImportMissionFromXmlRequest),
 							typeof(ExportTelemetryToXmlRequest),
