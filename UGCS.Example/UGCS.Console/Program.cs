@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProtoBuf;
+using System.IO;
 
 namespace UGCS.Console
 {
@@ -33,6 +34,7 @@ namespace UGCS.Console
             future.Wait();
             AuthorizeHciResponse AuthorizeHciResponse = future.Value;
             int clientId = AuthorizeHciResponse.ClientId;
+            System.Console.WriteLine("AuthorizeHciResponse precessed");
 
             //login
             LoginRequest loginRequest = new LoginRequest();
@@ -41,6 +43,7 @@ namespace UGCS.Console
             loginRequest.ClientId = clientId;
             var loginResponcetask = messageExecutor.Submit<LoginResponse>(loginRequest);
             loginResponcetask.Wait();
+
 
             // Click&Go example
             var sendCommandRequest = new SendCommandRequest
@@ -65,6 +68,88 @@ namespace UGCS.Console
 
             var sendCommandResponse = messageExecutor.Submit<SendCommandResponse>(sendCommandRequest);
             sendCommandResponse.Wait();
+            System.Console.WriteLine("Click&Go command sent");
+
+
+            //Import mission
+            var byteArray = File.ReadAllBytes("Demo mission.xml");
+            ImportMissionFromXmlRequest importMissionRequest = new ImportMissionFromXmlRequest()
+            {
+                ClientId = clientId,
+                MissionXml = byteArray
+            };
+            var importMissionResponse = messageExecutor.Submit<ImportMissionFromXmlResponse>(importMissionRequest);
+            importMissionResponse.Wait();
+            //mission contains imported mission from Demo mission.xml
+            var mission = importMissionResponse.Value.Mission;
+            System.Console.WriteLine("Demo mission.xml imported to UCS with name '{0}'", mission.Name);
+
+            //Get mission from server
+            GetObjectRequest getMissionObjectRequest = new GetObjectRequest()
+            {
+                ClientId = clientId,
+                ObjectType = "Mission",
+                ObjectId = mission.Id,
+                RefreshDependencies = true
+            };
+            var getMissionObjectResponse = messageExecutor.Submit<GetObjectResponse>(getMissionObjectRequest);
+            getMissionObjectResponse.Wait();
+            //missionFromUcs contains retrieved mission
+            var missionFromUcs = getMissionObjectResponse.Value.Object.Mission;
+            System.Console.WriteLine("mission id '{0}' retrieved from UCS with name '{1}'", mission.Id, missionFromUcs.Name);
+
+            //Import route
+            var byteArrayRoute = File.ReadAllBytes("Demo route for Copter.xml");
+            ImportRouteRequest importRouteRequest = new ImportRouteRequest()
+            {
+                ClientId = clientId,
+                RouteData = byteArrayRoute,
+                Filename = "Demo route for Copter.xml"
+            };
+            var importRouteResponse = messageExecutor.Submit<ImportRouteResponse>(importRouteRequest);
+            importRouteResponse.Wait();
+            //importedRoute contains imported route from Demo route for Copter.xml
+            var importedRoute = importRouteResponse.Value.Route;
+            System.Console.WriteLine("Demo route for Copter.xml imported to UCS with name '{0}'", importedRoute.Name);
+            //Add vehicle profile to route
+            GetObjectRequest requestVehicle = new GetObjectRequest()
+            {
+                ClientId = clientId,
+                ObjectType = "Vehicle",
+                ObjectId = 1, //EMU-COPTER-17
+                RefreshDependencies = true
+            };
+            var responseVehicle = messageExecutor.Submit<GetObjectResponse>(requestVehicle);
+            responseVehicle.Wait();
+            importedRoute.VehicleProfile = responseVehicle.Value.Object.Vehicle.Profile;
+            //Add route to mission
+            importedRoute.Mission = missionFromUcs;
+            //Save route on server
+            CreateOrUpdateObjectRequest routeSaveRequest = new CreateOrUpdateObjectRequest()
+            {
+                ClientId = clientId,
+                Object = new DomainObjectWrapper().Put(importedRoute, "Route"),
+                WithComposites = true,
+                ObjectType = "Route",
+                AcquireLock = false
+            };
+            var updateRouteTask = messageExecutor.Submit<CreateOrUpdateObjectResponse>(routeSaveRequest);
+            updateRouteTask.Wait();
+            System.Console.WriteLine("route '{0}' added to mission '{1}'", updateRouteTask.Value.Object.Route.Name, missionFromUcs.Name);
+            
+            //Get route from server
+            GetObjectRequest getRouteObjectRequest = new GetObjectRequest()
+            {
+                ClientId = clientId,
+                ObjectType = "Route",
+                ObjectId = updateRouteTask.Value.Object.Route.Id,
+                RefreshDependencies = true
+            };
+            var geRouteObjectResponse = messageExecutor.Submit<GetObjectResponse>(getRouteObjectRequest);
+            geRouteObjectResponse.Wait();
+            //routeFromUcs contains retrieved route
+            var routeFromUcs = geRouteObjectResponse.Value.Object.Route;
+            System.Console.WriteLine(string.Format("route id '{0}' retrieved from UCS with name '{1}'", updateRouteTask.Value.Object.Route.Id, routeFromUcs.Name));
 
             //Get all vehicles
             GetObjectListRequest getObjectListRequest = new GetObjectListRequest()
