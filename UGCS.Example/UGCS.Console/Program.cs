@@ -226,7 +226,13 @@ namespace UGCS.Console
 
 
             System.Console.ReadKey();
-            Environment.Exit(1);
+
+            tcpClient.Close();
+            messageSender.Cancel();
+            messageReceiver.Cancel();
+            messageExecutor.Close();
+            notificationListener.Dispose();
+
         }
     }
 }
