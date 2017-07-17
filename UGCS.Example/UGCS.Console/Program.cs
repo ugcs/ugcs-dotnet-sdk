@@ -203,6 +203,21 @@ namespace UGCS.Console
             ), eventSubscriptionWrapper);
             notificationListener.AddSubscription(st);
 
+            // Get Telemetry for vehicle
+            DateTime utcTime = DateTime.Now.ToUniversalTime();
+            DateTime PosixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan span = utcTime - PosixEpoch;
+            var beginningMilliseconds = (long)span.TotalMilliseconds;
+            GetTelemetryRequest telemetryRequest = new GetTelemetryRequest
+            {
+                ClientId = clientId,
+                FromTime = beginningMilliseconds,
+                Limit = 10,
+                Vehicle = new Vehicle() { Id = 1 }
+            };
+            var responseTelemetry = messageExecutor.Submit<GetTelemetryResponse>(telemetryRequest);
+            responseTelemetry.Wait();
+
             //TelemetrySubscription
             var telemetrySubscriptionWrapper = new EventSubscriptionWrapper();
             telemetrySubscriptionWrapper.TelemetrySubscription = new TelemetrySubscription();
