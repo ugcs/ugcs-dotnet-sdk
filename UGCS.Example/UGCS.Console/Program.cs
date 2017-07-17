@@ -205,8 +205,8 @@ namespace UGCS.Console
 
             // Get Telemetry for vehicle
             DateTime utcTime = DateTime.Now.ToUniversalTime();
-            DateTime PosixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            TimeSpan span = utcTime - PosixEpoch;
+            DateTime posixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan span = utcTime - posixEpoch;
             var beginningMilliseconds = (long)span.TotalMilliseconds;
             GetTelemetryRequest telemetryRequest = new GetTelemetryRequest
             {
