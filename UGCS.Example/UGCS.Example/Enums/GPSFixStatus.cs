@@ -9,22 +9,22 @@ namespace UGCS.Example.Enums
 {
     public enum GPSFixStatus
     {
-        [Description("N/A")]
-        NA = 0,
-
         [Description("No fix")]
-        NO_FIX = 1,
+        NO_FIX = 0,
 
         [Description("2D fix")]
-        FIX_2D = 2,
+        FIX_2D = 1,
 
         [Description("3D fix")]
-        FIX_3D = 3,
+        FIX_3D = 2,
 
         [Description("DGPS fix")]
-        FIX_DGPS = 4,
+        FIX_DGPS = 3,
 
         [Description("RTK fix")]
-        FIX_RTK = 5
-    }    
+        FIX_RTK = 4,
+
+        [Description("RTK float")]
+        FLOAT_RTK = 5
+    }
 }
