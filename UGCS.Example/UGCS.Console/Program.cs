@@ -44,6 +44,16 @@ namespace UGCS.Console
             var loginResponcetask = messageExecutor.Submit<LoginResponse>(loginRequest);
             loginResponcetask.Wait();
 
+            //Lock vehicle example
+            AcquireLockRequest lockRequest = new AcquireLockRequest
+            {
+                ClientId = clientId,
+                ObjectType = "Vehicle",
+                ObjectId = 2
+            };
+
+            var resultLock = messageExecutor.Submit<AcquireLockResponse>(lockRequest);
+            resultLock.Wait();
 
             // Click&Go example
             var sendCommandRequest = new SendCommandRequest
