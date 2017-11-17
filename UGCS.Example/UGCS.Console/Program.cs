@@ -248,6 +248,32 @@ namespace UGCS.Console
             ), telemetrySubscriptionWrapper);
             notificationListener.AddSubscription(stTelemetry);
 
+            //Log notification subscription
+            var logSubscriptionWrapper = new EventSubscriptionWrapper();
+            logSubscriptionWrapper.ObjectModificationSubscription = new ObjectModificationSubscription();
+            logSubscriptionWrapper.ObjectModificationSubscription.ObjectType = "VehicleLogEntry";
+            SubscribeEventRequest requestLogEvent = new SubscribeEventRequest();
+            requestLogEvent.ClientId = clientId;
+            requestLogEvent.Subscription = logSubscriptionWrapper;
+            var responceLog = messageExecutor.Submit<SubscribeEventResponse>(requestLogEvent);
+            var subscribeEventResponseLog = responceLog.Value;
+
+            SubscriptionToken stLog = new SubscriptionToken(subscribeEventResponseLog.SubscriptionId, (
+                (notification) =>
+                {
+                    var eventType = notification.Event.ObjectModificationEvent.ModificationType;
+                    var eventLog = notification.Event.ObjectModificationEvent.Object.VehicleLogEntry;
+                    if (eventType == ModificationType.MT_CREATE)
+                    {
+                        DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                        DateTime date = start.AddMilliseconds(eventLog.Time).ToLocalTime();
+                        var command = eventLog.CommandArguments != null ? eventLog.CommandArguments.CommandCode : string.Empty;
+                        System.Console.WriteLine("LOG: {0} Vehicle id: {1} Command: {2} Message: {3}", date.ToString("HH:mm:ss"), eventLog.Vehicle.Id, command, eventLog.Message);
+                    }
+
+                }), logSubscriptionWrapper);
+            notificationListener.AddSubscription(stLog);
+
 
 
             System.Console.ReadKey();
