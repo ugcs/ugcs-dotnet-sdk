@@ -168,7 +168,6 @@ namespace UGCS.Console
                 ObjectType = "Vehicle",
                 RefreshDependencies = true
             };
-            getObjectListRequest.RefreshExcludes.Add("Avatar");
             getObjectListRequest.RefreshExcludes.Add("PayloadProfile");
             getObjectListRequest.RefreshExcludes.Add("Route");
             var task = messageExecutor.Submit<GetObjectListResponse>(getObjectListRequest);
@@ -274,6 +273,28 @@ namespace UGCS.Console
                 }), logSubscriptionWrapper);
             notificationListener.AddSubscription(stLog);
 
+            //Object notification subscription, subscribe for mission changed 
+            var missionObjectSubscriptionWrapper = new EventSubscriptionWrapper();
+            missionObjectSubscriptionWrapper.ObjectModificationSubscription = new ObjectModificationSubscription();
+            missionObjectSubscriptionWrapper.ObjectModificationSubscription.ObjectType = "Mission";
+            SubscribeEventRequest requestMissionEvent = new SubscribeEventRequest();
+            requestMissionEvent.ClientId = clientId;
+            requestMissionEvent.Subscription = missionObjectSubscriptionWrapper;
+            var responceMission = messageExecutor.Submit<SubscribeEventResponse>(requestMissionEvent);
+            var subscribeEventResponseMission = responceMission.Value;
+
+            SubscriptionToken stMission = new SubscriptionToken(subscribeEventResponseMission.SubscriptionId, (
+                (notification) =>
+                {
+                    var eventType = notification.Event.ObjectModificationEvent.ModificationType;
+                    var missionObject = notification.Event.ObjectModificationEvent.Object.Mission;
+                    if (eventType == ModificationType.MT_UPDATE)
+                    {
+                        System.Console.WriteLine("Mission id: {0} updated", missionObject.Id);
+                    }
+
+                }), missionObjectSubscriptionWrapper);
+            notificationListener.AddSubscription(stMission);
 
 
             System.Console.ReadKey();
