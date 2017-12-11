@@ -160,6 +160,37 @@ namespace UGCS.Console
             //routeFromUcs contains retrieved route
             var routeFromUcs = geRouteObjectResponse.Value.Object.Route;
             System.Console.WriteLine(string.Format("route id '{0}' retrieved from UCS with name '{1}'", updateRouteTask.Value.Object.Route.Id, routeFromUcs.Name));
+            
+            //add action to route
+            ActionDefinition actionDefenition = new ActionDefinition();
+            actionDefenition.HeadingDefinition = new HeadingDefinition();
+            actionDefenition.HeadingDefinition.Heading = 1.57079633; // 90 degrees
+            actionDefenition.HeadingDefinition.RelativeToNorth = true; 
+            if (routeFromUcs.Segments.Count > 2)
+            {
+                routeFromUcs.Segments[1].ActionDefinitions.Add(actionDefenition);
+            }
+            System.Console.WriteLine(string.Format("action to route '{0}'", routeFromUcs.Name));
+
+            //save route
+            CreateOrUpdateObjectRequest createOrUpdateRouteRequest = new CreateOrUpdateObjectRequest()
+            {
+                ClientId = clientId,
+                Object = new DomainObjectWrapper().Put(routeFromUcs, "Route"),
+                WithComposites = true,
+                ObjectType = "Route",
+                AcquireLock = false
+            };
+            var createOrUpdateRouteResponseTask = messageExecutor.Submit<CreateOrUpdateObjectResponse>(createOrUpdateRouteRequest);
+            createOrUpdateRouteResponseTask.Wait();
+            if (createOrUpdateRouteResponseTask.Value != null)
+            {
+                System.Console.WriteLine(string.Format("'{0}' route updated on UCS", routeFromUcs.Name));
+            }
+            else
+            {
+                System.Console.WriteLine(string.Format("fail to update route '{0}' on UCS", routeFromUcs.Name));
+            }
 
             //Get all vehicles
             GetObjectListRequest getObjectListRequest = new GetObjectListRequest()
