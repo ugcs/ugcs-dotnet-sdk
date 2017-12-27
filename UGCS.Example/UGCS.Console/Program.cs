@@ -212,6 +212,47 @@ namespace UGCS.Console
             }
             Vehicle vehicle = task.Value.Objects.FirstOrDefault().Vehicle;
 
+            // Payload control
+            SendCommandRequest requestPaload = new SendCommandRequest
+            {
+                ClientId = clientId,
+                Command = new UGCS.Sdk.Protocol.Encoding.Command
+                {
+                    Code = "direct_payload_control",
+                    Subsystem = Subsystem.S_GIMBAL,
+                    Silent = true,
+                    ResultIndifferent = true
+                }
+            };
+            requestPaload.Vehicles.Add(new Vehicle() { Id = vehicle.Id });
+
+            List<CommandArgument> listCommands = new List<CommandArgument>();
+            listCommands.Add(new CommandArgument
+            {
+                Code = "roll",
+                Value = new Value() { DoubleValue = 1 }
+            });
+            listCommands.Add(new CommandArgument
+            {
+                Code = "pitch",
+                Value = new Value() { DoubleValue = 0 }
+            });
+            listCommands.Add(new CommandArgument
+            {
+                Code = "yaw",
+                Value = new Value() { DoubleValue = 0 }
+            });
+            listCommands.Add(new CommandArgument
+            {
+                Code = "zoom",
+                Value = new Value() { DoubleValue = 0 }
+            });
+
+            requestPaload.Command.Arguments.AddRange(listCommands);
+
+            var resultPayload = messageExecutor.Submit<SendCommandResponse>(requestPaload);
+            resultPayload.Wait();
+
             //update vehicle object
             CreateOrUpdateObjectRequest createOrUpdateObjectRequest = new CreateOrUpdateObjectRequest()
             {
