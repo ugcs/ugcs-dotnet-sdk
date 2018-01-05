@@ -131,7 +131,6 @@ namespace Services.SdkServices
                 ObjectType = "Mission",
                 RefreshDependencies = true,
             };
-            request.RefreshExcludes.Add("Avatar");
             request.RefreshExcludes.Add("PayloadProfile");
             request.RefreshExcludes.Add("Platform");
             request.RefreshExcludes.Add("User");

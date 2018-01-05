@@ -6,7 +6,7 @@
       <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
     <Setting Name="UgcsDroneProfileName" GenerateDefaultValueInCode="false" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">EMU-COPTER-17</Value>
+      <Value Profile="(Default)">EMU-101</Value>
     </Setting>
     <Setting Name="MapProviderName" GenerateDefaultValueInCode="false" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Google (hybrid)</Value>

@@ -37,7 +37,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Sdk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ugcs-dotnet-sdk.2.12.983\lib\Sdk.dll</HintPath>
+      <HintPath>..\packages\ugcs-dotnet-sdk.2.13.401\lib\Sdk.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -59,9 +59,11 @@
   <ItemGroup>
     <Content Include="Demo mission.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Demo route for Copter.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

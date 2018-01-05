@@ -213,7 +213,6 @@ namespace Services.SdkServices
                 RefreshDependencies = true
             };
 
-            request.RefreshExcludes.Add("Avatar");
             request.RefreshExcludes.Add("Vehicle");
             request.RefreshExcludes.Add("PayloadProfile");
             request.RefreshExcludes.Add("Mission");

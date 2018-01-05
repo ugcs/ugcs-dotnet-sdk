@@ -35,7 +35,6 @@ namespace Services.SdkServices
                 ObjectType = _invariantEntityName,
                 RefreshDependencies = true
             };
-            request.RefreshExcludes.Add("Avatar");
             request.RefreshExcludes.Add("PayloadProfile");
             request.RefreshExcludes.Add("Route");
             var task = _connect.Executor.Submit<GetObjectListResponse>(request);
@@ -75,7 +74,6 @@ namespace Services.SdkServices
                 ObjectType = "Vehicle",
                 RefreshDependencies = true,
             };
-            request.RefreshExcludes.Add("Avatar");
             request.RefreshExcludes.Add("PayloadProfile");
             request.RefreshExcludes.Add("Route");
             var task = _connect.Executor.Submit<GetObjectResponse>(request);
