@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ProtoBuf;
 using System.IO;
+using System.Threading;
 
 namespace UGCS.Console
 {
@@ -330,6 +331,53 @@ namespace UGCS.Console
             joystickModeCommand.Vehicles.Add(new Vehicle() { Id = 2 });
             var joystickMode = messageExecutor.Submit<SendCommandResponse>(joystickModeCommand);
             joystickMode.Wait();
+
+            // Vehicle control in joystick mode
+            SendCommandRequest vehicleJoystickControl = new SendCommandRequest
+            {
+                ClientId = clientId,
+                Command = new UGCS.Sdk.Protocol.Encoding.Command
+                {
+                    Code = "direct_vehicle_control",
+                    Subsystem = Subsystem.S_FLIGHT_CONTROLLER,
+                    Silent = true,
+                    ResultIndifferent = true
+                }
+            };
+            vehicleJoystickControl.Vehicles.Add(new Vehicle() { Id = 2 });
+
+            //List of current joystick values to send to vehicle.
+            List<CommandArgument> listJoystickCommands = new List<CommandArgument>();
+            listJoystickCommands.Add(new CommandArgument
+            {
+                Code = "roll",
+                Value = new Value() { DoubleValue = 0 }
+            });
+            listJoystickCommands.Add(new CommandArgument
+            {
+                Code = "pitch",
+                Value = new Value() { DoubleValue = 0 }
+            });
+            listJoystickCommands.Add(new CommandArgument
+            {
+                Code = "yaw",
+                Value = new Value() { DoubleValue = 0 }
+            });
+            listJoystickCommands.Add(new CommandArgument
+            {
+                Code = "throttle",
+                Value = new Value() { DoubleValue = 1 }
+            });
+
+            vehicleJoystickControl.Command.Arguments.AddRange(listJoystickCommands);
+
+            for (int i = 1; i < 11; i++ )
+            {
+                var sendJoystickCommandResponse = messageExecutor.Submit<SendCommandResponse>(vehicleJoystickControl);
+                resultPayload.Wait();
+                System.Console.WriteLine("Joystick command to go UP {0}", i);
+                Thread.Sleep(1000);
+            }
 
             //TelemetrySubscription
             var telemetrySubscriptionWrapper = new EventSubscriptionWrapper();
