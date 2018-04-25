@@ -299,6 +299,38 @@ namespace UGCS.Console
             var responseTelemetry = messageExecutor.Submit<GetTelemetryResponse>(telemetryRequest);
             responseTelemetry.Wait();
 
+            //Go to manual mode
+            SendCommandRequest manualModeCommand = new SendCommandRequest
+            {
+                ClientId = clientId,
+                Command = new UGCS.Sdk.Protocol.Encoding.Command
+                {
+                    Code = "manual",
+                    Subsystem = Subsystem.S_FLIGHT_CONTROLLER,
+                    Silent = false,
+                    ResultIndifferent = false
+                }
+            };
+            manualModeCommand.Vehicles.Add(new Vehicle() { Id = 2 });
+            var manualMode = messageExecutor.Submit<SendCommandResponse>(manualModeCommand);
+            manualMode.Wait();
+
+            //Go to joystick mode
+            SendCommandRequest joystickModeCommand = new SendCommandRequest
+            {
+                ClientId = clientId,
+                Command = new UGCS.Sdk.Protocol.Encoding.Command
+                {
+                    Code = "joystick",
+                    Subsystem = Subsystem.S_FLIGHT_CONTROLLER,
+                    Silent = false,
+                    ResultIndifferent = false
+                }
+            };
+            joystickModeCommand.Vehicles.Add(new Vehicle() { Id = 2 });
+            var joystickMode = messageExecutor.Submit<SendCommandResponse>(joystickModeCommand);
+            joystickMode.Wait();
+
             //TelemetrySubscription
             var telemetrySubscriptionWrapper = new EventSubscriptionWrapper();
             telemetrySubscriptionWrapper.TelemetrySubscription = new TelemetrySubscription();
