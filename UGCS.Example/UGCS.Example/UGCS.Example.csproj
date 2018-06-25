@@ -95,7 +95,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Sdk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ugcs-dotnet-sdk.2.13.401\lib\Sdk.dll</HintPath>
+      <HintPath>..\packages\ugcs-dotnet-sdk.3.0.1090\lib\Sdk.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

@@ -15,11 +15,45 @@ namespace UGCS.Console
 
     class Program
     {
+        private static object getTelemetryValue(Value telemetryValue)
+        {
+            if (telemetryValue == null)
+            {
+                return null;
+            }
+            if (telemetryValue.IntValueSpecified)
+            {
+                return telemetryValue.IntValue;
+            }
+            if (telemetryValue.LongValueSpecified)
+            {
+                return telemetryValue.LongValue;
+            }
+            if (telemetryValue.StringValueSpecified)
+            {
+                return telemetryValue.StringValue;
+            }
+            if (telemetryValue.BoolValueSpecified)
+            {
+                return telemetryValue.BoolValue;
+            }
+            if (telemetryValue.DoubleValueSpecified)
+            {
+                return telemetryValue.DoubleValue;
+            }
+            if (telemetryValue.FloatValueSpecified)
+            {
+                return telemetryValue.FloatValue;
+            }
+            return null;
+        }
+
         static void Main(string[] args)
         {
 
             //Connect
-            TcpClient tcpClient = new TcpClient("localhost", 3334);
+            TcpClient tcpClient = new TcpClient();
+            tcpClient.Connect("localhost", 3334);
             MessageSender messageSender = new MessageSender(tcpClient.Session);
             MessageReceiver messageReceiver = new MessageReceiver(tcpClient.Session);
             MessageExecutor messageExecutor = new MessageExecutor(messageSender, messageReceiver, new InstantTaskScheduler());
@@ -391,9 +425,9 @@ namespace UGCS.Console
             SubscriptionToken stTelemetry = new SubscriptionToken(subscribeEventResponseTelemetry.SubscriptionId, (
                 (notification) =>
                 {
-                    foreach (var t in notification.Event.TelemetryEvent.Telemetry)
+                    foreach (Telemetry t in notification.Event.TelemetryEvent.Telemetry)
                     {
-                        System.Console.WriteLine("Vehicle id: {0} Type: {1} Value {2}", t.Vehicle.Id, t.Type.ToString(), t.Value);
+                        System.Console.WriteLine("Vehicle id: {0} Code: {1} Semantic {2} Subsystem {3} Value {4}", notification.Event.TelemetryEvent.Vehicle.Id, t.TelemetryField.Code, t.TelemetryField.Semantic, t.TelemetryField.Subsystem, getTelemetryValue(t.Value));
                     }
                 }
             ), telemetrySubscriptionWrapper);

@@ -168,7 +168,7 @@ namespace UGCS.Example.ViewModels
         {
             //init map center
             //Example: MapCenter = new Location(RadianToDegree(latitudeGPS), RadianToDegree(longitudeGPS));
-            MapCenter = new Location(RadianToDegree(0.99443566874164979), RadianToDegree(0.42015588448045021));
+            MapCenter = new Location(RadianToDegree(0.8163854), RadianToDegree(0.1456502));
             
         }
 

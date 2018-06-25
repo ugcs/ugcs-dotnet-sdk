@@ -72,10 +72,10 @@ namespace UGCS.Example.ViewModels
             Task.Factory.StartNew(() =>
             {
                 Route = _routeService.CreateNewRoute(Mission, ClientVehicle.Vehicle.Profile, "TestRoute");
-                Route = _routeService.AddWaypoint(Route, 0, 0.99443566874164979, 0.42015588448045021);
-                Route = _routeService.AddWaypoint(Route, 1, 0.9944535, 0.4201588);
-                Route = _routeService.AddWaypoint(Route, 2, 0.9944535, 0.4201720);
-                Route = _routeService.AddWaypoint(Route, 3, 0.99443566874164979, 0.4201620);
+                Route = _routeService.AddWaypoint(Route, 0, 0.8163862613378483, 0.14565284453422503);
+                Route = _routeService.AddWaypoint(Route, 1, 0.8163939269001643, 0.14566059986372001);
+                Route = _routeService.AddWaypoint(Route, 2, 0.8164021444313243, 0.1456445439943193);
+                Route = _routeService.AddWaypoint(Route, 3, 0.8163927607338599, 0.14564369686869438);
             }).ContinueWith((result) =>
             {
                 if (result.Exception != null)
