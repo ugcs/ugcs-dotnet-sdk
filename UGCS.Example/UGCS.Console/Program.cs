@@ -91,6 +91,20 @@ namespace UGCS.Console
             resultLock.Wait();
 
             // Click&Go example
+
+            var sendCommandRequestGuided = new SendCommandRequest
+            {
+                ClientId = clientId,
+                Command = new UGCS.Sdk.Protocol.Encoding.Command
+                {
+                    Code = "guided",
+                    Subsystem = Subsystem.S_FLIGHT_CONTROLLER
+                }
+            };
+            sendCommandRequestGuided.Vehicles.Add(new Vehicle { Id = 2 });
+            var sendCommandResponseGuided = messageExecutor.Submit<SendCommandResponse>(sendCommandRequestGuided);
+            sendCommandResponseGuided.Wait();
+
             var sendCommandRequest = new SendCommandRequest
             {
                 ClientId = clientId,
