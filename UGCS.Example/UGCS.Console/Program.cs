@@ -143,6 +143,17 @@ namespace UGCS.Console
             var mission = importMissionResponse.Value.Mission;
             System.Console.WriteLine("Demo mission.xml imported to UCS with name '{0}'", mission.Name);
 
+            //get emucopter route
+            GetObjectRequest getObjectRequest = new GetObjectRequest()
+            {
+                ClientId = clientId,
+                ObjectType = "Route",
+                RefreshDependencies = true,
+                ObjectId = 1
+            };
+            var taskRoute = messageExecutor.Submit<GetObjectResponse>(getObjectRequest);
+            taskRoute.Wait();
+            var routeFromServer = taskRoute.Value;
 
             //Get all vehicles
             GetObjectListRequest getObjectListRequest = new GetObjectListRequest()
