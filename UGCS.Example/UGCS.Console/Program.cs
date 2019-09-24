@@ -481,10 +481,10 @@ namespace UGCS.Console
             commandSubscription.CommandSubscription.Vehicle = new Vehicle() { Id = 2 };
 
             SubscribeEventRequest requestEventCommand = new SubscribeEventRequest();
-            requestEvent.ClientId = clientId;
-            requestEvent.Subscription = commandSubscription;
+            requestEventCommand.ClientId = clientId;
+            requestEventCommand.Subscription = commandSubscription;
 
-            var response = messageExecutor.Submit<SubscribeEventResponse>(requestEvent);
+            var response = messageExecutor.Submit<SubscribeEventResponse>(requestEventCommand);
             response.Wait();
             var subscribeEventResponseCommand = response.Value;
             SubscriptionToken stCommand = new SubscriptionToken(subscribeEventResponseCommand.SubscriptionId,
