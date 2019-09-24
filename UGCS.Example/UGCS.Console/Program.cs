@@ -473,7 +473,7 @@ namespace UGCS.Console
                 Thread.Sleep(1000);
             }
 
-            //command subscribtion
+            //command subscription
             EventSubscriptionWrapper commandSubscription = new EventSubscriptionWrapper()
             {
                 CommandSubscription = new CommandSubscription(),
