@@ -132,12 +132,13 @@ namespace UGCS.Console
 
             //Import mission
             var byteArray = File.ReadAllBytes("Demo mission.xml");
-            ImportMissionFromXmlRequest importMissionRequest = new ImportMissionFromXmlRequest()
+            ImportMissionRequest importMissionRequest = new ImportMissionRequest()
             {
                 ClientId = clientId,
-                MissionXml = byteArray
+                MissionData = byteArray,
+                Filename = "Demo mission.xml"
             };
-            var importMissionResponse = messageExecutor.Submit<ImportMissionFromXmlResponse>(importMissionRequest);
+            var importMissionResponse = messageExecutor.Submit<ImportMissionResponse>(importMissionRequest);
             importMissionResponse.Wait();
             //mission contains imported mission from Demo mission.xml
             var mission = importMissionResponse.Value.Mission;
@@ -472,6 +473,31 @@ namespace UGCS.Console
                 Thread.Sleep(1000);
             }
 
+            //command subscribtion
+            EventSubscriptionWrapper commandSubscription = new EventSubscriptionWrapper()
+            {
+                CommandSubscription = new CommandSubscription(),
+            };
+            commandSubscription.CommandSubscription.Vehicle = new Vehicle() { Id = 2 };
+
+            SubscribeEventRequest requestEventCommand = new SubscribeEventRequest();
+            requestEvent.ClientId = clientId;
+            requestEvent.Subscription = commandSubscription;
+
+            var response = messageExecutor.Submit<SubscribeEventResponse>(requestEvent);
+            response.Wait();
+            var subscribeEventResponseCommand = response.Value;
+            SubscriptionToken stCommand = new SubscriptionToken(subscribeEventResponseCommand.SubscriptionId,
+                notification =>
+                {
+                    foreach (CommandDefinition cd in notification.Event.CommandEvent.Commands)
+                    {
+                        System.Console.WriteLine("CommandDefinition Name: {0}", cd.Name);
+                    }
+                },
+                commandSubscription);
+            notificationListener.AddSubscription(stCommand);
+
             //TelemetrySubscription
             var telemetrySubscriptionWrapper = new EventSubscriptionWrapper();
             telemetrySubscriptionWrapper.TelemetrySubscription = new TelemetrySubscription();
@@ -511,8 +537,7 @@ namespace UGCS.Console
                     {
                         DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                         DateTime date = start.AddMilliseconds(eventLog.Time).ToLocalTime();
-                        var command = eventLog.CommandArguments != null ? eventLog.CommandArguments.CommandCode : string.Empty;
-                        System.Console.WriteLine("LOG: {0} Vehicle id: {1} Command: {2} Message: {3}", date.ToString("HH:mm:ss"), eventLog.Vehicle.Id, command, eventLog.Message);
+                        System.Console.WriteLine("LOG: {0} Vehicle id: {1} Message: {2}", date.ToString("HH:mm:ss"), eventLog.Vehicle.Id, eventLog.Message);
                     }
 
                 }), logSubscriptionWrapper);

@@ -70,10 +70,7 @@ namespace UGCS.Example
                 _messageExecutor.Configuration.SetTimeout(typeof(CreateOrUpdateObjectRequest), 10 * 1000);
                 int timeout = 10 * 1000;
                 Type[] transferTypes = new[] {
-							typeof(ExportRouteToXmlRequest),
 							typeof(ImportRouteRequest),
-							typeof(ExportMissionToXmlRequest),
-							typeof(ImportMissionFromXmlRequest),
 							typeof(ExportTelemetryRequest),
 							typeof(ImportTelemetryRequest)
 						};
