@@ -49,7 +49,7 @@ namespace Services.SdkServices
             {
                 Name = "speed",
                 Value = "5.0",
-                ValueSpecified = true
+                ValueSpecified = true,
             });
             newSegment.ParameterValues.Add(new ParameterValue()
             {
@@ -69,6 +69,13 @@ namespace Services.SdkServices
                 Value = "True",
                 ValueSpecified = true
             });
+            //AGL, WGS84, RANGEFINDER (Only for Ardupilot)
+            newSegment.ParameterValues.Add(new ParameterValue()
+            {
+                Name = "altitudeType",
+                Value = "AGL", 
+                ValueSpecified = true
+            });
 
 
             newSegment.Figure.Points.Add(new FigurePoint()
@@ -81,7 +88,6 @@ namespace Services.SdkServices
                 LatitudeSpecified = true,
                 Longitude = lng, //0.42015588448045021,
                 LongitudeSpecified = true,
-                Order = 0,
                 Wgs84Altitude = 0.0,
                 Wgs84AltitudeSpecified = true
             });
@@ -121,9 +127,7 @@ namespace Services.SdkServices
             future.Wait();
             route = future.Value.Route;
             route.Mission = mission;
-            route.HomeLocationSource = HomeLocationSource.HLS_FIRST_WAYPOINT;
             route.TrajectoryType = TrajectoryType.TT_STAIR;
-            route.AltitudeType = AltitudeType.AT_AGL;
             route.MaxAltitude = 50.0;
             route.SafeAltitude = 3.0;
             route.CheckAerodromeNfz = false;
@@ -137,7 +141,7 @@ namespace Services.SdkServices
                 Action = FailsafeAction.FA_GO_HOME,
                 ActionSpecified = true,
                 Reason = FailsafeReason.FR_RC_LOST,
-                ReasonSpecified = true
+                ReasonSpecified = true,
             });
             route.Failsafes.Add(new Failsafe()
             {

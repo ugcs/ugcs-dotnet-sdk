@@ -75,7 +75,7 @@ namespace Services.SdkServices.ServerModels
 					algotithm.PlatformAndVehicleType.Platform.Id == _profile.Platform.Id && 
 					algotithm.PlatformAndVehicleType.VehicleType == _profile.VehicleType);
 			return platform != null
-				? platform.AlgorithmAndActionCodes.Select(x => x.Algorithm).OrderBy(o => o.Order).ToList()
+				? platform.AlgorithmAndActionCodes.Select(x => x.Algorithm).ToList()
 				: new List<TraverseAlgorithm>();
         }
     }

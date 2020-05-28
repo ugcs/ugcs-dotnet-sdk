@@ -62,7 +62,7 @@ namespace UGCS.Example.ViewModels
                 {
                     cam = cam + 360;
                 }
-                return "Vehicle heading: " + Math.Round(cam);
+                return "Vehicle camera heading: " + Math.Round(cam);
             }
         }
 
