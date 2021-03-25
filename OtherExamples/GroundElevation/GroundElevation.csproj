@@ -3,10 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net462</TargetFramework>
+    <AssemblyName>ground-elevation</AssemblyName>
+    <RootNamespace>UgCS.SDK.Examples.GroundElevation</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ugcs-dotnet-sdk" Version="3.3.492" />
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
 </Project>

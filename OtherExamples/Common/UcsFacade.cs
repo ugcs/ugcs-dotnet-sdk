@@ -6,12 +6,12 @@ using UGCS.Sdk.Protocol;
 using UGCS.Sdk.Protocol.Encoding;
 using UGCS.Sdk.Tasks;
 
-namespace GroundElevation
+namespace UgCS.SDK.Examples.Common
 {
     /// <summary>
     /// Simple facade to communicate with ucs.
     /// </summary>
-    internal sealed class UcsFacade : IDisposable
+    public sealed class UcsFacade : IDisposable
     {
         private readonly TcpClient _ucsConnection;
         private readonly MessageExecutor _executor;

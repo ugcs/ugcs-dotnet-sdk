@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroundElevation", "GroundElevation.csproj", "{C0AE8C57-49A3-49B9-8C58-FC7A5102397A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common.csproj", "{0823191C-F120-400F-9A2B-15F12BC75C2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C0AE8C57-49A3-49B9-8C58-FC7A5102397A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0AE8C57-49A3-49B9-8C58-FC7A5102397A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0AE8C57-49A3-49B9-8C58-FC7A5102397A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0823191C-F120-400F-9A2B-15F12BC75C2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0823191C-F120-400F-9A2B-15F12BC75C2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0823191C-F120-400F-9A2B-15F12BC75C2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0823191C-F120-400F-9A2B-15F12BC75C2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,8 +2,9 @@
 using UGCS.Sdk.Protocol.Encoding;
 using System.Linq;
 using System.Diagnostics;
+using UgCS.SDK.Examples.Common;
 
-namespace GroundElevation
+namespace UgCS.SDK.Examples.GroundElevation
 {
     class Program
     {

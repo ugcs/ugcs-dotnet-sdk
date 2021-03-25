@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>UgCS.SDK.Examples.Common</AssemblyName>
+    <RootNamespace>UgCS.SDK.Examples.Common</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ugcs-dotnet-sdk" Version="4.2.0" />
+  </ItemGroup>
+
+</Project>
