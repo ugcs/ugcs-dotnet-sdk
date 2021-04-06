@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using UGCS.Sdk.Protocol;
 using UGCS.Sdk.Protocol.Encoding;
 using UGCS.Sdk.Tasks;
@@ -16,6 +17,10 @@ namespace UgCS.SDK.Examples.Common
         private readonly TcpClient _ucsConnection;
         private readonly MessageExecutor _executor;
         private bool _isDisposed = false;
+        private NotificationListener _notificationListener;
+
+
+        public event EventHandler Disconnected;
 
 
         public int ClientId { get; }
@@ -26,6 +31,29 @@ namespace UgCS.SDK.Examples.Common
             _ucsConnection = ucsConection;
             _executor = executor;
             ClientId = clientId;
+
+            _notificationListener = new NotificationListener();
+            executor.Receiver.AddListener(-1, _notificationListener);
+
+            _ucsConnection.Session.Disconnected += ucs_Disconnected;
+        }
+
+        private void ucs_Disconnected(object sender, EventArgs e)
+        {
+            Disconnected?.Invoke(this, e);
+        }
+
+        public Task<TResponse> ExecuteAsync<TResponse>(IExtensible request)
+            where TResponse : IExtensible
+        {
+            var tcs = new TaskCompletionSource<TResponse>();
+            var future = _executor.Submit<TResponse>(request, r =>
+            {
+                if (r.Exception != null)
+                    tcs.SetException(r.Exception);
+                tcs.SetResult((TResponse)r.Value);
+            });
+            return tcs.Task;
         }
 
         public TResponse Execute<TResponse>(IExtensible request)
@@ -36,6 +64,28 @@ namespace UgCS.SDK.Examples.Common
             if (future.Exception != null)
                 throw new ApplicationException("Ucs request execution exception.", future.Exception);
             return future.Value;
+        }
+
+        /// <param name="token">Use it in <see cref="Unsubscribe(SubscriptionToken)"/>.</param>
+        public void Subscribe(EventSubscriptionWrapper subscription, NotificationHandler handler,
+            out SubscriptionToken token)
+        {
+            var resp = Execute<SubscribeEventResponse>(
+                new SubscribeEventRequest
+                {
+                    ClientId = this.ClientId,
+                    Subscription = subscription
+                });
+
+            token = new SubscriptionToken(resp.SubscriptionId,
+                handler,
+                subscription);
+            _notificationListener.AddSubscription(token);
+        }
+
+        public void Unsubscribe(SubscriptionToken token)
+        {
+            _notificationListener.RemoveSubscription(token, out bool removedLastForId);
         }
 
         public static UcsFacade connectToUcs(string host, int port, string login, string password)
@@ -76,15 +126,23 @@ namespace UgCS.SDK.Examples.Common
             return new UcsFacade(ucsConnection, executor, clientId);
         }
 
+        public static Task<UcsFacade> connectToUcsAsync(string host, int port, string login, string password)
+        {
+            return Task.Run(() => connectToUcs(host, port, login, password));
+        }
+
 
         public void Dispose()
         {
             if (_isDisposed)
                 return;
 
+            _ucsConnection.Session.Disconnected -= ucs_Disconnected;
+
             _executor.Close();
             _ucsConnection.Close();
             _ucsConnection.Dispose();
+            _notificationListener.Dispose();
 
             _isDisposed = true;
         }

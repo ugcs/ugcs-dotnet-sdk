@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ugcs-dotnet-sdk" Version="4.2.0" />
+    <PackageReference Include="ugcs-dotnet-sdk" Version="4.2.3" />
   </ItemGroup>
 
 </Project>
