@@ -488,6 +488,8 @@
 			<o v2="20.0" v3="LOW_BATTERY_POWER_LEVEL"/>
 			<o v2="50.0" v3="NORMAL_BATTERY_POWER_LEVEL"/>
 		</ugcs-List>
+		<ugcs-List name="payloadProfiles" type="VehicleProfilePayloadProfile" v0="id" v1="version" v2-ref="payloadProfile">
+		</ugcs-List>
 	</VehicleProfile>
 
 	<PayloadProfile ugcs-Ref="PayloadProfile:GoPro Hero3 Black Edition">
