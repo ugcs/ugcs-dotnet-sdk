@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31825.309
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{53323D4D-1A6F-4568-A2AE-83E5CC89C16E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{EC34AA7D-FCAF-448C-8DD9-2920C1819053}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectVehicleControl", "Examples\DirectVehicleControl\DirectVehicleControl.csproj", "{57B6162F-3FFA-4959-9177-421C751E035E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroundElevation", "Examples\GroundElevation\GroundElevation.csproj", "{7399458E-08EF-4938-BA45-8C40CD5152AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RouteUploading", "Examples\RouteUploading\RouteUploading.csproj", "{56AAF188-C750-4ABD-9C0D-B20B78A8820E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Takeoff", "Examples\Takeoff\Takeoff.csproj", "{7FF3EF38-0D4B-4214-9620-BCD60400C94E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{5BF6B8B4-C6C5-472A-AB53-3868EF5BA6E0}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53323D4D-1A6F-4568-A2AE-83E5CC89C16E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53323D4D-1A6F-4568-A2AE-83E5CC89C16E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53323D4D-1A6F-4568-A2AE-83E5CC89C16E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53323D4D-1A6F-4568-A2AE-83E5CC89C16E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57B6162F-3FFA-4959-9177-421C751E035E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57B6162F-3FFA-4959-9177-421C751E035E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57B6162F-3FFA-4959-9177-421C751E035E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57B6162F-3FFA-4959-9177-421C751E035E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7399458E-08EF-4938-BA45-8C40CD5152AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7399458E-08EF-4938-BA45-8C40CD5152AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7399458E-08EF-4938-BA45-8C40CD5152AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7399458E-08EF-4938-BA45-8C40CD5152AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56AAF188-C750-4ABD-9C0D-B20B78A8820E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56AAF188-C750-4ABD-9C0D-B20B78A8820E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56AAF188-C750-4ABD-9C0D-B20B78A8820E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56AAF188-C750-4ABD-9C0D-B20B78A8820E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FF3EF38-0D4B-4214-9620-BCD60400C94E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FF3EF38-0D4B-4214-9620-BCD60400C94E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FF3EF38-0D4B-4214-9620-BCD60400C94E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF3EF38-0D4B-4214-9620-BCD60400C94E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{57B6162F-3FFA-4959-9177-421C751E035E} = {EC34AA7D-FCAF-448C-8DD9-2920C1819053}
+		{7399458E-08EF-4938-BA45-8C40CD5152AC} = {EC34AA7D-FCAF-448C-8DD9-2920C1819053}
+		{56AAF188-C750-4ABD-9C0D-B20B78A8820E} = {EC34AA7D-FCAF-448C-8DD9-2920C1819053}
+		{7FF3EF38-0D4B-4214-9620-BCD60400C94E} = {EC34AA7D-FCAF-448C-8DD9-2920C1819053}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5DA6D589-1D7E-4F7E-B994-FEF0F7F87B12}
+	EndGlobalSection
+EndGlobal
