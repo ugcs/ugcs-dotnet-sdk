@@ -88,7 +88,7 @@ namespace UgCS.SDK.Examples.Common
             _notificationListener.RemoveSubscription(token, out bool removedLastForId);
         }
 
-        public static UcsFacade connectToUcs(string host, int port, string login, string password)
+        public static UcsFacade connectToUcs(string host, int port = 3334, string login = "admin", string password = "admin")
         {
             var ucsConnection = new TcpClient();
             ucsConnection.Connect(host, port);

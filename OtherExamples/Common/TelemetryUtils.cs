@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using UGCS.Sdk.Protocol.Encoding;
+using System.Threading;
+using UGCS.Sdk.Protocol;
 
 namespace UgCS.SDK.Examples.Common
 {
@@ -23,6 +25,10 @@ namespace UgCS.SDK.Examples.Common
                 "heading", Semantic.S_HEADING, Subsystem.S_FLIGHT_CONTROLLER);
             public static readonly WellKnownTelemetry AltitudeRaw = new WellKnownTelemetry(
                 "altitude_raw", Semantic.S_ALTITUDE_RAW, Subsystem.S_FLIGHT_CONTROLLER);
+            public static readonly WellKnownTelemetry IsArmed = new WellKnownTelemetry(
+                "is_armed", Semantic.S_BOOL, Subsystem.S_FLIGHT_CONTROLLER);
+            public static readonly WellKnownTelemetry DownlinkPresent = new WellKnownTelemetry(
+                "downlink_present", Semantic.S_BOOL, Subsystem.S_FLIGHT_CONTROLLER);
 
 
             private WellKnownTelemetry(string code, Semantic semantic, Subsystem subsystem)
@@ -122,6 +128,55 @@ namespace UgCS.SDK.Examples.Common
                     getNumeric(firstFound.Value));
             }
             return true;
+        }
+
+        /// <summary>
+        /// Get current telemetry for the vehicle from UCS.
+        /// </summary>
+        /// <exception cref="TimeoutException">The exception is thrown if ucs doesn't return telemetry during <paramref name="millisecondsTimeout"/>.</exception>
+        public static List<Telemetry> GetTelemetry(this UcsFacade ucs, Vehicle v, int millisecondsTimeout = 5000)
+        {
+            using (var syncEvent = new ManualResetEvent(false))
+            {
+                List<Telemetry> telemetry = null;
+                ucs.SubscribeToVehicleTelemetry(v, e =>
+                    {
+                        telemetry = e.Telemetry;
+                        syncEvent.Set();
+                    },
+                    out SubscriptionToken token);
+                bool success = syncEvent.WaitOne(millisecondsTimeout);
+                ucs.Unsubscribe(token);
+                if (!success)
+                    throw new TimeoutException("Telemetry wasn't received during expected time.");
+                return telemetry;
+            }
+        }
+
+        /// <summary>
+        /// Subscribes to the vehicle telemetry and waits untils the provided telemetry field is received.
+        /// </summary>
+        /// <returns>
+        /// - Received telemetry or null if telemetry wasn't received during <paramref name="millisecondsTimeout"/>.
+        /// </returns>
+        public static Telemetry GetTelemetry(this UcsFacade ucs, Vehicle v, WellKnownTelemetry field, int millisecondsTimeout = 5000)
+        {
+            using (var syncEvent = new ManualResetEvent(false))
+            {
+                Telemetry telemetry = null;
+                ucs.SubscribeToVehicleTelemetry(v, e =>
+                    {
+                        telemetry = e.Telemetry.FirstOrDefault(x => x.TelemetryField.Is(field));
+                        if (telemetry != null)
+                        syncEvent.Set();
+                    },
+                    out SubscriptionToken token);
+                bool success = syncEvent.WaitOne(millisecondsTimeout);
+                ucs.Unsubscribe(token);
+                if (!success)
+                    return null;
+                return telemetry;
+            }
         }
 
         private static double getNumeric(Value v)

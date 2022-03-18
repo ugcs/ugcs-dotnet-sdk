@@ -35,25 +35,17 @@ namespace UgCS.SDK.Examples.Common
             if (v == null)
                 throw new ArgumentNullException(nameof(v));
 
-            var req = new SendCommandRequest
-            {
-                ClientId = ucs.ClientId,
-                Command = new Command
-                {
-                    Code = "arm",
-                    Subsystem = Subsystem.S_FLIGHT_CONTROLLER
-                }
-            };
-            req.Vehicles.Add(v);
+            ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "arm");
+        }
+        
+        public static void Takeoff(this UcsFacade ucs, Vehicle v)
+        {
+            if (ucs == null)
+                throw new ArgumentNullException(nameof(ucs));
+            if (v == null)
+                throw new ArgumentNullException(nameof(v));
 
-            var resp = ucs.Execute<SendCommandResponse>(req);
-
-            Debug.Assert(resp.CommandResults.Count == 1);
-            VehicleCommandResultDto executionResult = resp.CommandResults[0];
-
-            Debug.Assert(executionResult != null);
-            if (executionResult.CommandStatus != CommandStatus.CS_SUCCEEDED)
-                throw new ApplicationException($"Command execution failed: '{executionResult.ErrorMessage}'.");
+            ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "takeoff_command");
         }
 
         public static void Auto(this UcsFacade ucs, Vehicle v)
@@ -63,25 +55,7 @@ namespace UgCS.SDK.Examples.Common
             if (v == null)
                 throw new ArgumentNullException(nameof(v));
 
-            var req = new SendCommandRequest
-            {
-                ClientId = ucs.ClientId,
-                Command = new Command
-                {
-                    Code = "auto",
-                    Subsystem = Subsystem.S_FLIGHT_CONTROLLER
-                }
-            };
-            req.Vehicles.Add(v);
-
-            var resp = ucs.Execute<SendCommandResponse>(req);
-
-            Debug.Assert(resp.CommandResults.Count == 1);
-            VehicleCommandResultDto executionResult = resp.CommandResults[0];
-
-            Debug.Assert(executionResult != null);
-            if (executionResult.CommandStatus != CommandStatus.CS_SUCCEEDED)
-                throw new ApplicationException($"Command execution failed: '{executionResult.ErrorMessage}'.");
+            ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "auto");
         }
 
         public static void Manual(this UcsFacade ucs, Vehicle v)
@@ -91,13 +65,19 @@ namespace UgCS.SDK.Examples.Common
             if (v == null)
                 throw new ArgumentNullException(nameof(v));
 
+            ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "manual");
+        }
+
+        private static void executeCommand(this UcsFacade ucs, Vehicle v,
+            Subsystem subsystem, string commandCode)
+        {
             var req = new SendCommandRequest
             {
                 ClientId = ucs.ClientId,
                 Command = new Command
                 {
-                    Code = "manual",
-                    Subsystem = Subsystem.S_FLIGHT_CONTROLLER
+                    Code = commandCode,
+                    Subsystem = subsystem
                 }
             };
             req.Vehicles.Add(v);

@@ -26,13 +26,14 @@ namespace UgCS.SDK.Examples.Common
             throw new ArgumentException();
         }
 
-        public static List<T> List<T>(this UcsFacade ucs)
+        public static List<T> List<T>(this UcsFacade ucs, bool withDependencies = false)
             where T: class, IExtensible
         {
             var req = new GetObjectListRequest
             {
                 ClientId = ucs.ClientId,
-                ObjectType = typeof(T).Name
+                ObjectType = typeof(T).Name,
+                RefreshDependencies = withDependencies,
             };
             var res = ucs.Execute<GetObjectListResponse>(req);
 
@@ -40,6 +41,7 @@ namespace UgCS.SDK.Examples.Common
                 return res.Objects.Select(x => x.Route as T).ToList();
             else if (typeof(T) == typeof(Vehicle))
                 return res.Objects.Select(x => x.Vehicle as T).ToList();
+
 
             throw new ArgumentException();
         }
