@@ -1,4 +1,4 @@
-﻿# Direct vehicle control example
+﻿# Take off example
 
 This example explains how to take off a drone using `arm` and `takeoff_command` commands.
 
