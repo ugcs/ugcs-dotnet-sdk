@@ -1,4 +1,4 @@
-# UgCS .NET SDK
+# UgCS .NET SDK Examples
 
 
 ## The goal of this repository
