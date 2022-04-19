@@ -70,7 +70,6 @@ namespace CameraVehicleControl
             }
 
             int vehicleId = Int32.Parse(s);
-            // Id of the emu-copter is 2
             var vehicleToControl = new Vehicle { Id = vehicleId };
 
             Console.WriteLine("Vehicle ID {0} selected", vehicleId);
@@ -80,32 +79,32 @@ namespace CameraVehicleControl
             {
 
                 Console.WriteLine("Specify camera_attitude_command parameters. Hit x then enter = Exit app.");
-                Console.WriteLine("Specify pitch (float). example 1.4");
+                Console.WriteLine("Specify pitch (double). example 1.4");
                 s = Console.ReadLine();
                 if (s == null || s == "x")
                 {
                     command = false;
                     continue;
                 }
-                float pitch = float.Parse(s);
+                double pitch = double.Parse(s);
                 
-                Console.WriteLine("Specify roll (float)");
+                Console.WriteLine("Specify roll (double)");
                 s = Console.ReadLine();
                 if (s == null || s == "x")
                 {
                     command = false;
                     continue;
                 }
-                float roll = float.Parse(s);
+                double roll = double.Parse(s);
                 
-                Console.WriteLine("Specify yaw (float)");
+                Console.WriteLine("Specify yaw (double)");
                 s = Console.ReadLine();
                 if (s == null || s == "x")
                 {
                     command = false;
                     continue;
                 }
-                float yaw = float.Parse(s);
+                double yaw = double.Parse(s);
                 
                 Console.WriteLine("Specify zoom (int)");
                 s = Console.ReadLine();
@@ -121,7 +120,7 @@ namespace CameraVehicleControl
                     ClientId = clientId,
                     Command = new Command
                     {
-                        Code = "camera_attitude_command",
+                        Code = "payload_control",
                         Subsystem = Subsystem.S_CAMERA,
                         Silent = false,
                         ResultIndifferent = false
@@ -129,23 +128,23 @@ namespace CameraVehicleControl
                 };
                 cameraAttitude.Vehicles.Add(vehicleToControl);
 
-                //List of current joystick values to send to vehicle.
+                //List of current camera values to send to vehicle.
                 List<CommandArgument> listCameraAttitude = new List<CommandArgument>
                 {
                     new CommandArgument
                     {
                         Code = "pitch",
-                        Value = new Value { FloatValue = pitch }
+                        Value = new Value { DoubleValue = pitch }
                     },
                     new CommandArgument
                     {
                         Code = "roll",
-                        Value = new Value { FloatValue = roll }
+                        Value = new Value { DoubleValue = roll }
                     },
                     new CommandArgument
                     {
                         Code = "yaw",
-                        Value = new Value { FloatValue = yaw }
+                        Value = new Value { DoubleValue = yaw }
                     },
                     new CommandArgument
                     {
