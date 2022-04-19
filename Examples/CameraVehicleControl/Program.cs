@@ -79,14 +79,14 @@ namespace CameraVehicleControl
             {
 
                 Console.WriteLine("Specify camera_attitude_command parameters. Hit x then enter = Exit app.");
-                Console.WriteLine("Specify pitch (double). example 1.4");
+                Console.WriteLine("Specify tilt (double). example 1.4");
                 s = Console.ReadLine();
                 if (s == null || s == "x")
                 {
                     command = false;
                     continue;
                 }
-                double pitch = double.Parse(s);
+                double tilt = double.Parse(s);
                 
                 Console.WriteLine("Specify roll (double)");
                 s = Console.ReadLine();
@@ -113,7 +113,7 @@ namespace CameraVehicleControl
                     command = false;
                     continue;
                 }
-                int zoom = Int32.Parse(s);
+                int zoomLevel = Int32.Parse(s);
                 
                 SendCommandRequest cameraAttitude = new SendCommandRequest
                 {
@@ -133,8 +133,8 @@ namespace CameraVehicleControl
                 {
                     new CommandArgument
                     {
-                        Code = "pitch",
-                        Value = new Value { DoubleValue = pitch }
+                        Code = "tilt",
+                        Value = new Value { DoubleValue = tilt }
                     },
                     new CommandArgument
                     {
@@ -148,8 +148,8 @@ namespace CameraVehicleControl
                     },
                     new CommandArgument
                     {
-                        Code = "zoom",
-                        Value = new Value { IntValue = zoom }
+                        Code = "zoom_level",
+                        Value = new Value { IntValue = zoomLevel }
                     }
                 };
 
