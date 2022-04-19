@@ -47,6 +47,16 @@ namespace UgCS.SDK.Examples.Common
 
             ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "takeoff_command");
         }
+        
+        public static void Land(this UcsFacade ucs, Vehicle v)
+        {
+            if (ucs == null)
+                throw new ArgumentNullException(nameof(ucs));
+            if (v == null)
+                throw new ArgumentNullException(nameof(v));
+
+            ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "land_command");
+        }        
 
         public static void Auto(this UcsFacade ucs, Vehicle v)
         {
