@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UgCS.SDK.Examples.Common
 {
-    internal static class ConsoleEx
+    public static class ConsoleEx
     {
         public static T Select<T>(IEnumerable<T> values, 
             Func<T, int> identityGetter, Func<T, string> displayNameGetter)
@@ -23,7 +21,7 @@ namespace UgCS.SDK.Examples.Common
             while (true)
             {
                 int selectedId = readInt("Input id");
-                T? selectedObject = values.FirstOrDefault(v => identityGetter(v) == selectedId);
+                T selectedObject = values.FirstOrDefault(v => identityGetter(v) == selectedId);
                 if (selectedObject != null)
                     return selectedObject;
 
@@ -34,7 +32,7 @@ namespace UgCS.SDK.Examples.Common
         private static int readInt(string message)
         {
             Console.Write(message + ": ");
-            string? input = Console.ReadLine();
+            string input = Console.ReadLine();
             int result;
             while (input == null || !Int32.TryParse(input, out result))
             {

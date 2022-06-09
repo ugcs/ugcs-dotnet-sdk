@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using System.Text;
 using UGCS.Sdk.Protocol.Encoding;
 using ProtoBuf;
+using UGCS.Sdk.Protocol;
 
 namespace UgCS.SDK.Examples.Common
 {
     public static class ObjectAccessUtils
     {
+        public delegate void ObjectModificationEventHandler(ObjectModificationEvent e);
+
+
         public static T Get<T>(this UcsFacade ucs, int id)
             where T:Route
         {
@@ -44,6 +48,28 @@ namespace UgCS.SDK.Examples.Common
 
 
             throw new ArgumentException();
+        }
+
+        public static void SubscribeToObjectModification(this UcsFacade ucs, String typeName,
+           ObjectModificationEventHandler handler, out SubscriptionToken token)
+        {
+            if (ucs == null)
+                throw new ArgumentNullException(nameof(ucs));
+            if (String.IsNullOrEmpty(typeName))
+                throw new ArgumentNullException(nameof(typeName));
+            if (handler == null)
+                throw new ArgumentNullException(nameof(handler));
+
+            ucs.Subscribe(
+                new EventSubscriptionWrapper
+                {
+                    ObjectModificationSubscription = new ObjectModificationSubscription
+                    {
+                        ObjectType = typeName
+                    }
+                },
+                (e) => handler(e.Event.ObjectModificationEvent),
+                out token);
         }
     }
 }

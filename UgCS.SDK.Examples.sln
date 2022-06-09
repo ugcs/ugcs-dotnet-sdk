@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{5BF6B8B4-C
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleLog", "Examples\VehicleLog\VehicleLog.csproj", "{14C155B6-7B68-4A6A-8545-0D10ADE54439}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{7FF3EF38-0D4B-4214-9620-BCD60400C94E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FF3EF38-0D4B-4214-9620-BCD60400C94E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FF3EF38-0D4B-4214-9620-BCD60400C94E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14C155B6-7B68-4A6A-8545-0D10ADE54439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14C155B6-7B68-4A6A-8545-0D10ADE54439}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14C155B6-7B68-4A6A-8545-0D10ADE54439}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14C155B6-7B68-4A6A-8545-0D10ADE54439}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{7399458E-08EF-4938-BA45-8C40CD5152AC} = {EC34AA7D-FCAF-448C-8DD9-2920C1819053}
 		{56AAF188-C750-4ABD-9C0D-B20B78A8820E} = {EC34AA7D-FCAF-448C-8DD9-2920C1819053}
 		{7FF3EF38-0D4B-4214-9620-BCD60400C94E} = {EC34AA7D-FCAF-448C-8DD9-2920C1819053}
+		{14C155B6-7B68-4A6A-8545-0D10ADE54439} = {EC34AA7D-FCAF-448C-8DD9-2920C1819053}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5DA6D589-1D7E-4F7E-B994-FEF0F7F87B12}
