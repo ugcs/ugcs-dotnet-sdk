@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "get-native-route": {
+      "commandName": "Project",
+      "commandLineArgs": "c:\\temp\\route-ardu.json"
+    }
+  }
+}

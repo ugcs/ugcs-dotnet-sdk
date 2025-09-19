@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TraceTelemetry": {
+      "commandName": "Project",
+      "commandLineArgs": "test"
+    }
+  }
+}

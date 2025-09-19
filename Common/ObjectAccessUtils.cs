@@ -45,6 +45,8 @@ namespace UgCS.SDK.Examples.Common
                 return res.Objects.Select(x => x.Route as T).ToList();
             else if (typeof(T) == typeof(Vehicle))
                 return res.Objects.Select(x => x.Vehicle as T).ToList();
+            else if (typeof (T) == typeof(VehicleProfile))
+                return res.Objects.Select(x => x.VehicleProfile as T).ToList();
 
 
             throw new ArgumentException();

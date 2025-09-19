@@ -59,6 +59,8 @@ namespace UgCS.SDK.Examples.Common
         public TResponse Execute<TResponse>(IExtensible request)
             where TResponse : IExtensible
         {
+            ((dynamic)request).ClientId = ClientId;
+            
             var future = _executor.Submit<TResponse>(request);
             future.Wait();
             if (future.Exception != null)

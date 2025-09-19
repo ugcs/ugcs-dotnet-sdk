@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using UGCS.Sdk.Protocol;
 using UGCS.Sdk.Protocol.Encoding;
+using static UgCS.SDK.Examples.Common.TelemetryUtils;
 
 namespace UgCS.SDK.Examples.Common
 {
@@ -87,7 +88,7 @@ namespace UgCS.SDK.Examples.Common
                 bool success = syncEvent.WaitOne(millisecondsTimeout);
                 ucs.Unsubscribe(token);
                 if (!success)
-                    throw new TimeoutException("The vehicle wasn't armed during expected time.");
+                    throw new TimeoutException("The UCS didn't send a command event during expected time.");
                 return supportedCommands;
             }
         }
@@ -95,6 +96,20 @@ namespace UgCS.SDK.Examples.Common
         public static bool IsEmulator(this Vehicle v)
         {
             return !v.IsReal;
+        }
+
+
+        /// <summary>
+        /// Subscribe to the vehicle telemetry, and wait until the vehicle is armed.
+        /// </summary>
+        public static bool IsOnline(this UcsFacade ucs, Vehicle v)
+        {
+            Telemetry? t = ucs.GetTelemetry(v, WellKnownTelemetry.DownlinkPresent, millisecondsTimeout: 1000);
+            return
+                t != null &&
+                t.Value != null &&
+                t.Value.BoolValueSpecified &&
+                t.Value.BoolValue;
         }
     }
 }

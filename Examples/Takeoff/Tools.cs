@@ -45,19 +45,6 @@ namespace UgCS.SDK.Examples.Takeoff
         /// <summary>
         /// Subscribe to the vehicle telemetry, and wait until the vehicle is armed.
         /// </summary>
-        public static bool IsOnline(this UcsFacade ucs, Vehicle v)
-        {
-            Telemetry? t = ucs.GetTelemetry(v, WellKnownTelemetry.DownlinkPresent, millisecondsTimeout: 1000);
-            return 
-                t != null &&
-                t.Value != null &&
-                t.Value.BoolValueSpecified &&
-                t.Value.BoolValue;
-        }
-
-        /// <summary>
-        /// Subscribe to the vehicle telemetry, and wait until the vehicle is armed.
-        /// </summary>
         public static bool IsArmed(this UcsFacade ucs, Vehicle v)
         {
             return ucs.GetTelemetry(v).Exists(x =>
@@ -78,6 +65,12 @@ namespace UgCS.SDK.Examples.Takeoff
         {
             return ucs.IsCommandSupported(v, Subsystem.S_FLIGHT_CONTROLLER, "takeoff_command");
         }
+
+        public static bool IsUploadSupported(this UcsFacade ucs, Vehicle v)
+        {
+            return ucs.IsCommandSupported(v, Subsystem.S_FLIGHT_CONTROLLER, "mission_upload");
+        }
+
 
         private static bool IsCommandSupported(this UcsFacade ucs, Vehicle v, Subsystem subsystem, string commandCode)
         {

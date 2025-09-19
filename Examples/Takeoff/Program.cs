@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using UgCS.SDK.Examples.Common;
 using UgCS.SDK.Examples.Takeoff;
+using UGCS.Sdk.Protocol;
 using UGCS.Sdk.Protocol.Encoding;
 
 
@@ -9,6 +10,13 @@ using (UcsFacade ucs = UcsFacade.connectToUcs("localhost"))
 {
     Console.WriteLine("Connected to ucs.");
 
+    var versions = ucs.Execute<GetObjectListResponse>(new GetObjectListRequest
+    {
+        ClientId = ucs.ClientId,
+        ObjectType = "Version"
+    }).Objects;
+    Console.WriteLine(versions.Count());
+        return;
 
     // Before take off a vehicle we have to get a reference to the corresponding vehicle.
 
@@ -18,9 +26,10 @@ using (UcsFacade ucs = UcsFacade.connectToUcs("localhost"))
         .Where(v => ucs.IsOnline(v));
 
     Trace.Assert(
-        onlineVehicles.Any(), 
+        onlineVehicles.Any(),
         "To run this example at lease one drone that supports 'takeoff_command' must be connected to UgCS. " +
         "It may be a DJI vehicle with simulation enabled or Ardupilot SITL.");
+
 
 
     // Ask user to select a vehicle for take off.
@@ -29,14 +38,61 @@ using (UcsFacade ucs = UcsFacade.connectToUcs("localhost"))
         x => x.Id,
         x => x.Name);
 
-    Trace.Assert(
-        !ucs.IsArmed(selectedVehicle),
-        $"The vehicle must not be armed.");
+    while (true)
+    {
+
+        // Before execute any command we have to get an exclusive control to the vehicle.
+        ucs.AcquireLock(selectedVehicle);
 
 
-    // Before execute any command we have to get an exclusive control to the vehicle.
-    ucs.AcquireLock(selectedVehicle);
+        ucs.SubscribeToVehicleCommands(selectedVehicle,
+            (x) =>
+            {
+                Console.WriteLine("Command event received from UCS:");
+                x.Commands.ForEach(cmd =>
+                {
+                    String isEnabled = "null";
+                    if (cmd.EnabledSpecified)
+                        isEnabled = cmd.Enabled.ToString();
 
+                    String isAvailable = "null";
+                    if (cmd.AvailableSpecified)
+                        isAvailable = cmd.Available.ToString();
+
+                    Console.WriteLine($"- {cmd.Name}: isEnabled={isEnabled}, isAvailable={isAvailable}");
+                });
+                Console.WriteLine();
+            },
+            out SubscriptionToken token);
+
+        Console.Write("Press any key to exit...");
+        Console.ReadKey();
+        return;
+
+        try
+        {
+            var commands = ucs.GetCommands(selectedVehicle);
+            if (!commands.Any())
+            {
+                Console.WriteLine("No commands.");
+            }
+            else
+            {
+                Console.WriteLine("Commands:");
+                foreach (var command in commands)
+                {
+                    Console.WriteLine("- " + command.Name);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        Thread.Sleep(1000);
+    }
+
+    return;
 
     // Some drones (ardupilot, for example) must be armed before take off.
     // But not all drones support 'arm' command (for example, DJI drones don't).

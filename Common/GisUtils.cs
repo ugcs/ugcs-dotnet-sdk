@@ -11,4 +11,6 @@ namespace UgCS.SDK.Examples.Common
             return radians * 180 / Math.PI;
         }
     }
+
+
 }
