@@ -1,4 +1,4 @@
-﻿using ProtoBuf;
+﻿using Com.Ugcs.Ucs.Proto;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
 using UgCS.SDK.Examples.Common;
-using UGCS.Sdk.Protocol;
-using UGCS.Sdk.Protocol.Encoding;
 
 namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Commands
 {

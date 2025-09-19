@@ -1,9 +1,8 @@
 ﻿
 using UgCS.SDK.Examples.Common;
-using UGCS.Sdk.Protocol.Encoding;
-using UGCS.Sdk.Protocol;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using Com.Ugcs.Ucs.Proto;
 
 object telemetrySync = new();
 var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
@@ -81,15 +80,15 @@ object? getValue(Value? value)
 {
     if (value == null)
         return null;
-    else if (value.StringValueSpecified)
+    else if (value.HasStringValue)
         return value.StringValue;
-    else if (value.DoubleValueSpecified)
+    else if (value.HasDoubleValue)
         return value.DoubleValue;
-    if (value.FloatValueSpecified)
+    if (value.HasFloatValue)
         return value.FloatValue;
-    else if (value.LongValueSpecified)
+    else if (value.HasLongValue)
         return value.LongValue;
-    else if (value.IntValueSpecified)
+    else if (value.HasIntValue)
         return value.IntValue;
     else
         return null;

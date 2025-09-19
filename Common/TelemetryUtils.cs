@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using UGCS.Sdk.Protocol.Encoding;
 using System.Threading;
-using UGCS.Sdk.Protocol;
+using Com.Ugcs.Ucs.Proto;
+using Google.Protobuf.Collections;
 
 namespace UgCS.SDK.Examples.Common
 {
@@ -18,17 +18,17 @@ namespace UgCS.SDK.Examples.Common
 
 
             public static readonly WellKnownTelemetry Latitude = new WellKnownTelemetry(
-                "latitude", Semantic.S_LATITUDE, Subsystem.S_FLIGHT_CONTROLLER);
+                "latitude", Semantic.SLatitude, Subsystem.SFlightController);
             public static readonly WellKnownTelemetry Longitude = new WellKnownTelemetry(
-                "longitude", Semantic.S_LONGITUDE, Subsystem.S_FLIGHT_CONTROLLER);
+                "longitude", Semantic.SLongitude, Subsystem.SFlightController);
             public static readonly WellKnownTelemetry Heading = new WellKnownTelemetry(
-                "heading", Semantic.S_HEADING, Subsystem.S_FLIGHT_CONTROLLER);
+                "heading", Semantic.SHeading, Subsystem.SFlightController);
             public static readonly WellKnownTelemetry AltitudeRaw = new WellKnownTelemetry(
-                "altitude_raw", Semantic.S_ALTITUDE_RAW, Subsystem.S_FLIGHT_CONTROLLER);
+                "altitude_raw", Semantic.SAltitudeRaw, Subsystem.SFlightController);
             public static readonly WellKnownTelemetry IsArmed = new WellKnownTelemetry(
-                "is_armed", Semantic.S_BOOL, Subsystem.S_FLIGHT_CONTROLLER);
+                "is_armed", Semantic.SBool, Subsystem.SFlightController);
             public static readonly WellKnownTelemetry DownlinkPresent = new WellKnownTelemetry(
-                "downlink_present", Semantic.S_BOOL, Subsystem.S_FLIGHT_CONTROLLER);
+                "downlink_present", Semantic.SBool, Subsystem.SFlightController);
 
 
             private WellKnownTelemetry(string code, Semantic semantic, Subsystem subsystem)
@@ -42,9 +42,9 @@ namespace UgCS.SDK.Examples.Common
             {
                 // To simplify code we skip subsystemId believing that the vehicle has
                 // only one instance of each subsystem.
-                return f.CodeSpecified && f.Code == _code
-                    && f.SemanticSpecified && f.Semantic == _semantic
-                    && f.SubsystemSpecified && f.Subsystem == _subsystem;
+                return f.HasCode && f.Code == _code
+                    && f.HasSemantic&& f.Semantic == _semantic
+                    && f.HasSubsystem&& f.Subsystem == _subsystem;
             }
 
         }
@@ -108,7 +108,7 @@ namespace UgCS.SDK.Examples.Common
             return wf.Is(f);
         }
 
-        public static bool Contains(this List<Telemetry> telemetry, WellKnownTelemetry field,
+        public static bool Contains(this RepeatedField<Telemetry> telemetry, WellKnownTelemetry field,
             out TlmValue<double> value)
         {
             Telemetry firstFound = telemetry.FirstOrDefault(x => x.TelemetryField.Is(field));
@@ -141,7 +141,7 @@ namespace UgCS.SDK.Examples.Common
                 List<Telemetry> telemetry = null;
                 ucs.SubscribeToVehicleTelemetry(v, e =>
                     {
-                        telemetry = e.Telemetry;
+                        telemetry = e.Telemetry.ToList();
                         syncEvent.Set();
                     },
                     out SubscriptionToken token);
@@ -181,13 +181,13 @@ namespace UgCS.SDK.Examples.Common
 
         private static double getNumeric(Value v)
         {
-            if (v.DoubleValueSpecified)
+            if (v.HasDoubleValue)
                 return v.DoubleValue;
-            else if (v.FloatValueSpecified)
+            else if (v.HasFloatValue)
                 return v.FloatValue;
-            else if (v.LongValueSpecified)
+            else if (v.HasLongValue)
                 return v.LongValue;
-            else if (v.IntValueSpecified)
+            else if (v.HasIntValue)
                 return v.IntValue;
             else
                 throw new ArgumentException("It's not a number.");

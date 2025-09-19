@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Com.Ugcs.Ucs.Proto;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using UGCS.Sdk.Protocol;
-using UGCS.Sdk.Protocol.Encoding;
 using static UgCS.SDK.Examples.Common.TelemetryUtils;
 
 namespace UgCS.SDK.Examples.Common
@@ -65,7 +64,7 @@ namespace UgCS.SDK.Examples.Common
                 throw new ArgumentNullException(nameof(v));
 
 
-            ucs.Execute<AcquireLockResponse>(
+            ucs.Execute<AcquireLockRequest, AcquireLockResponse>(
                 new AcquireLockRequest
                 {
                     ClientId = ucs.ClientId,
@@ -108,7 +107,7 @@ namespace UgCS.SDK.Examples.Common
             return
                 t != null &&
                 t.Value != null &&
-                t.Value.BoolValueSpecified &&
+                t.Value.HasBoolValue &&
                 t.Value.BoolValue;
         }
     }

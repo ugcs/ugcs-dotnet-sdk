@@ -1,8 +1,8 @@
 ﻿using System;
-using UGCS.Sdk.Protocol.Encoding;
 using System.Linq;
 using System.Diagnostics;
 using UgCS.SDK.Examples.Common;
+using Com.Ugcs.Ucs.Proto;
 
 namespace UgCS.SDK.Examples.GroundElevation
 {
@@ -47,7 +47,7 @@ namespace UgCS.SDK.Examples.GroundElevation
                     Longitude = toRadians(lon)
                 });
 
-            var res = ucs.Execute<GetElevationProfileResponse>(req);
+            var res = ucs.Execute<GetElevationProfileRequest, GetElevationProfileResponse>(req);
             Debug.Assert(res.Elevations.Count == 1);
             return res.Elevations.Single();
         }

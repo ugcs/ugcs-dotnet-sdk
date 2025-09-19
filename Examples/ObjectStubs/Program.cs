@@ -1,5 +1,5 @@
-﻿using UgCS.SDK.Examples.Common;
-using UGCS.Sdk.Protocol.Encoding;
+﻿using Com.Ugcs.Ucs.Proto;
+using UgCS.SDK.Examples.Common;
 
 using (var ucs = UcsFacade.connectToUcs("localhost"))
 {

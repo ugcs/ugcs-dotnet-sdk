@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Com.Ugcs.Ucs.Proto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UgCS.SDK.Examples.Common;
-using UGCS.Sdk.Protocol;
-using UGCS.Sdk.Protocol.Encoding;
 using WellKnownTelemetry = UgCS.SDK.Examples.Common.TelemetryUtils.WellKnownTelemetry;
 
 namespace UgCS.SDK.Examples.Takeoff
@@ -25,10 +24,10 @@ namespace UgCS.SDK.Examples.Takeoff
             {
                 ucs.SubscribeToVehicleTelemetry(v, e =>
                     {
-                        if (e.Telemetry.Exists(t =>
+                        if (e.Telemetry.ToList().Exists(t =>
                                 t.TelemetryField.Is(WellKnownTelemetry.IsArmed) &&
                                 t.Value != null &&
-                                t.Value.BoolValueSpecified &&
+                                t.Value.HasBoolValue &&
                                 t.Value.BoolValue))
                         {
                             syncEvent.Set();
@@ -50,7 +49,7 @@ namespace UgCS.SDK.Examples.Takeoff
             return ucs.GetTelemetry(v).Exists(x =>
                 x.TelemetryField.Is(WellKnownTelemetry.IsArmed) &&
                 x.Value != null &&
-                x.Value.BoolValueSpecified &&
+                x.Value.HasBoolValue &&
                 x.Value.BoolValue);
         }
 
@@ -58,17 +57,17 @@ namespace UgCS.SDK.Examples.Takeoff
 
         public static bool IsArmSupported(this UcsFacade ucs, Vehicle v)
         {
-            return ucs.IsCommandSupported(v, Subsystem.S_FLIGHT_CONTROLLER, "arm");
+            return ucs.IsCommandSupported(v, Subsystem.SFlightController, "arm");
         }
 
         public static bool IsTakeoffSupported(this UcsFacade ucs, Vehicle v)
         {
-            return ucs.IsCommandSupported(v, Subsystem.S_FLIGHT_CONTROLLER, "takeoff_command");
+            return ucs.IsCommandSupported(v, Subsystem.SFlightController, "takeoff_command");
         }
 
         public static bool IsUploadSupported(this UcsFacade ucs, Vehicle v)
         {
-            return ucs.IsCommandSupported(v, Subsystem.S_FLIGHT_CONTROLLER, "mission_upload");
+            return ucs.IsCommandSupported(v, Subsystem.SFlightController, "mission_upload");
         }
 
 
@@ -78,7 +77,7 @@ namespace UgCS.SDK.Examples.Takeoff
                 .Exists(c => 
                 c.Subsystem == subsystem &&
                 c.Code == commandCode && 
-                c.AvailableSpecified &&
+                c.HasAvailable &&
                 c.Available);
         }
 
@@ -88,18 +87,18 @@ namespace UgCS.SDK.Examples.Takeoff
                 .Exists(c =>
                 c.Subsystem == subsystem &&
                 c.Code == commandCode &&
-                c.EnabledSpecified &&
+                c.HasEnabled &&
                 c.Enabled);
         }
 
         public static bool IsArmEnabled(this UcsFacade ucs, Vehicle v)
         {
-            return ucs.IsCommandEnabled(v, Subsystem.S_FLIGHT_CONTROLLER, "arm");
+            return ucs.IsCommandEnabled(v, Subsystem.SFlightController, "arm");
         }
 
         public static bool IsTakeoffEnabled(this UcsFacade ucs, Vehicle v)
         {
-            return ucs.IsCommandEnabled(v, Subsystem.S_FLIGHT_CONTROLLER, "takeoff_command");
+            return ucs.IsCommandEnabled(v, Subsystem.SFlightController, "takeoff_command");
         }
 
     }

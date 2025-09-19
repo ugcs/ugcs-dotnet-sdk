@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Com.Ugcs.Ucs.Proto;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using UgCS.SDK.Examples.Common;
 using UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.ViewModels;
-using UGCS.Sdk.Protocol.Encoding;
 using static UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.ViewModels.OpenRouteDialogViewModel;
 
 namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Views
@@ -37,7 +37,7 @@ namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Views
                 RefreshDependencies = true
             };
 
-            var response = await _ucs.ExecuteAsync<GetObjectListResponse>(getRouteReq);
+            var response = await _ucs.ExecuteAsync<GetObjectListRequest, GetObjectListResponse>(getRouteReq);
             response.Objects
                 .Select(x => x.Route)
                 .OrderBy(x => x.Mission.Name)

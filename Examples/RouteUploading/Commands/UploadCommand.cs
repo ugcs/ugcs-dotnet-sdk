@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Com.Ugcs.Ucs.Proto;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -6,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using UgCS.SDK.Examples.Common;
-using UGCS.Sdk.Protocol.Encoding;
 
 namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Commands
 {

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="ugcs-dotnet-sdk" Version="4.2.3" />
+    <PackageReference Include="ugcs-dotnet-sdk" Version="5.13.0" />
   </ItemGroup>
 
 </Project>

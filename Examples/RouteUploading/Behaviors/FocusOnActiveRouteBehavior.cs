@@ -1,4 +1,5 @@
-﻿using MapControl;
+﻿using Com.Ugcs.Ucs.Proto;
+using MapControl;
 using Microsoft.Xaml.Behaviors;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UgCS.SDK.Examples.Common;
-using UGCS.Sdk.Protocol.Encoding;
 
 namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Behaviors
 {

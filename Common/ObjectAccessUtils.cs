@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using UGCS.Sdk.Protocol.Encoding;
-using ProtoBuf;
-using UGCS.Sdk.Protocol;
+using Com.Ugcs.Ucs.Proto;
+using Google.Protobuf;
 
 namespace UgCS.SDK.Examples.Common
 {
@@ -13,25 +12,21 @@ namespace UgCS.SDK.Examples.Common
         public delegate void ObjectModificationEventHandler(ObjectModificationEvent e);
 
 
-        public static T Get<T>(this UcsFacade ucs, int id)
-            where T:Route
+        public static Route GetRoute(this UcsFacade ucs, int id)
         {
             var req = new GetObjectRequest
             {
                 ClientId = ucs.ClientId,
-                ObjectType = typeof(T).Name,
+                ObjectType = typeof(Route).Name,
                 ObjectId = id
             };
-            var res = ucs.Execute<GetObjectResponse>(req);
+            var res = ucs.Execute<GetObjectRequest, GetObjectResponse>(req);
 
-            if (typeof(T) == typeof(Route))
-                return (T)res.Object.Route;
-
-            throw new ArgumentException();
+                return res.Object.Route;
         }
 
         public static List<T> List<T>(this UcsFacade ucs, bool withDependencies = false)
-            where T: class, IExtensible
+            where T: class, IMessage
         {
             var req = new GetObjectListRequest
             {
@@ -39,7 +34,7 @@ namespace UgCS.SDK.Examples.Common
                 ObjectType = typeof(T).Name,
                 RefreshDependencies = withDependencies,
             };
-            var res = ucs.Execute<GetObjectListResponse>(req);
+            var res = ucs.Execute<GetObjectListRequest, GetObjectListResponse>(req);
 
             if (typeof(T) == typeof(Route))
                 return res.Objects.Select(x => x.Route as T).ToList();

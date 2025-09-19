@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Com.Ugcs.Ucs.Proto;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using UGCS.Sdk.Protocol.Encoding;
 
 namespace UgCS.SDK.Examples.Common
 {
@@ -17,7 +17,7 @@ namespace UgCS.SDK.Examples.Common
             if (r == null)
                 throw new ArgumentNullException(nameof(r));
 
-            ucs.Execute<UploadRouteResponse>(
+            ucs.Execute<UploadRouteRequest, UploadRouteResponse>(
                 new UploadRouteRequest
                 {
                     ClientId = ucs.ClientId,
@@ -35,7 +35,7 @@ namespace UgCS.SDK.Examples.Common
             if (v == null)
                 throw new ArgumentNullException(nameof(v));
 
-            ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "arm");
+            ucs.executeCommand(v, Subsystem.SFlightController, "arm");
         }
         
         public static void Takeoff(this UcsFacade ucs, Vehicle v)
@@ -45,7 +45,7 @@ namespace UgCS.SDK.Examples.Common
             if (v == null)
                 throw new ArgumentNullException(nameof(v));
 
-            ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "takeoff_command");
+            ucs.executeCommand(v, Subsystem.SFlightController, "takeoff_command");
         }
         
         public static void Land(this UcsFacade ucs, Vehicle v)
@@ -55,7 +55,7 @@ namespace UgCS.SDK.Examples.Common
             if (v == null)
                 throw new ArgumentNullException(nameof(v));
 
-            ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "land_command");
+            ucs.executeCommand(v, Subsystem.SFlightController, "land_command");
         }        
 
         public static void Auto(this UcsFacade ucs, Vehicle v)
@@ -65,7 +65,7 @@ namespace UgCS.SDK.Examples.Common
             if (v == null)
                 throw new ArgumentNullException(nameof(v));
 
-            ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "auto");
+            ucs.executeCommand(v, Subsystem.SFlightController, "auto");
         }
 
         public static void Manual(this UcsFacade ucs, Vehicle v)
@@ -75,7 +75,7 @@ namespace UgCS.SDK.Examples.Common
             if (v == null)
                 throw new ArgumentNullException(nameof(v));
 
-            ucs.executeCommand(v, Subsystem.S_FLIGHT_CONTROLLER, "manual");
+            ucs.executeCommand(v, Subsystem.SFlightController, "manual");
         }
 
         private static void executeCommand(this UcsFacade ucs, Vehicle v,
@@ -92,13 +92,13 @@ namespace UgCS.SDK.Examples.Common
             };
             req.Vehicles.Add(v);
 
-            var resp = ucs.Execute<SendCommandResponse>(req);
+            var resp = ucs.Execute<SendCommandRequest, SendCommandResponse>(req);
 
             Debug.Assert(resp.CommandResults.Count == 1);
             VehicleCommandResultDto executionResult = resp.CommandResults[0];
 
             Debug.Assert(executionResult != null);
-            if (executionResult.CommandStatus != CommandStatus.CS_SUCCEEDED)
+            if (executionResult.CommandStatus != CommandStatus.CsSucceeded)
                 throw new ApplicationException($"Command execution failed: '{executionResult.ErrorMessage}'.");
         }
     }

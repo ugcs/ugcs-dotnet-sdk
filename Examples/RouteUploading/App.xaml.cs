@@ -1,9 +1,9 @@
 ﻿using CalculatedProperties;
+using Com.Ugcs.Ucs.Proto;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
-using UGCS.Sdk.Protocol.Encoding;
 
 [assembly: DebuggerDisplay("[Field={TelemetryField}; Value={Value}]", Target = typeof(Telemetry))]
 

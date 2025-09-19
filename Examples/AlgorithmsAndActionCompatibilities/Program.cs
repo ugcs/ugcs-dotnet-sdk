@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using Com.Ugcs.Ucs.Proto;
+using System.Linq;
 using UgCS.SDK.Examples.Common;
-using UGCS.Sdk.Protocol.Encoding;
 
 using (var ucs = UcsFacade.connectToUcs("localhost"))
 {
@@ -11,14 +11,14 @@ using (var ucs = UcsFacade.connectToUcs("localhost"))
     Console.WriteLine();
 
 
-    var algMapping = ucs.Execute<GetMappingResponse>(new GetMappingRequest
+    var algMapping = ucs.Execute<GetMappingRequest, GetMappingResponse>(new GetMappingRequest
     {
         ClientId = ucs.ClientId,
         GetAlgorithms = true
     })
         .AlgorithmsMapping
         .Algorithms
-        .Where(x => x.PlatformAndVehicleType.VehicleType == VehicleType.VT_MULTICOPTER);
+        .Where(x => x.PlatformAndVehicleType.VehicleType == VehicleType.VtMulticopter);
 
 
     foreach (var x in algMapping.OrderBy(x => x.PlatformAndVehicleType.Platform.Name))

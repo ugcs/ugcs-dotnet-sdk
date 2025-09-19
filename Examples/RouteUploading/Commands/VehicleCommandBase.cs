@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Com.Ugcs.Ucs.Proto;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -6,8 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using UgCS.SDK.Examples.Common;
-using UGCS.Sdk.Protocol;
-using UGCS.Sdk.Protocol.Encoding;
 
 namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Commands
 {
@@ -113,9 +112,9 @@ namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Commands
 
             CommandDefinition cmd = e.Commands.FirstOrDefault(
                 c => String.Equals(c.Code, Code, StringComparison.InvariantCultureIgnoreCase)
-                    && c.Subsystem == Subsystem.S_FLIGHT_CONTROLLER);
+                    && c.Subsystem == Subsystem.SFlightController);
 
-            if (cmd == null || !cmd.EnabledSpecified)
+            if (cmd == null || !cmd.HasEnabled)
                 setIsEnabled(null);
             else
                 setIsEnabled(cmd.Enabled);

@@ -1,4 +1,5 @@
 ﻿using CalculatedProperties;
+using Com.Ugcs.Ucs.Proto;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,6 @@ using System.Windows;
 using System.Windows.Input;
 using UgCS.SDK.Examples.Common;
 using UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Commands;
-using UGCS.Sdk.Protocol.Encoding;
 
 namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.ViewModels
 {

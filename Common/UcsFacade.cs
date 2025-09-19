@@ -1,10 +1,9 @@
-﻿using ProtoBuf;
+﻿using Com.Ugcs.Ucs.Proto;
+using Google.Protobuf;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using UGCS.Sdk.Protocol;
-using UGCS.Sdk.Protocol.Encoding;
 using UGCS.Sdk.Tasks;
 
 namespace UgCS.SDK.Examples.Common
@@ -43,11 +42,12 @@ namespace UgCS.SDK.Examples.Common
             Disconnected?.Invoke(this, e);
         }
 
-        public Task<TResponse> ExecuteAsync<TResponse>(IExtensible request)
-            where TResponse : IExtensible
+        public Task<TResponse> ExecuteAsync<T, TResponse>(IMessage<T> request)
+            where TResponse : IMessage<TResponse>
+            where T: IMessage<T>
         {
             var tcs = new TaskCompletionSource<TResponse>();
-            var future = _executor.Submit<TResponse>(request, r =>
+            var future = _executor.Submit<T, TResponse>(request, r =>
             {
                 if (r.Exception != null)
                     tcs.SetException(r.Exception);
@@ -56,12 +56,13 @@ namespace UgCS.SDK.Examples.Common
             return tcs.Task;
         }
 
-        public TResponse Execute<TResponse>(IExtensible request)
-            where TResponse : IExtensible
+        public TResponse Execute<T, TResponse>(IMessage<T> request)
+            where TResponse : IMessage<TResponse>
+            where T: IMessage<T>
         {
             ((dynamic)request).ClientId = ClientId;
             
-            var future = _executor.Submit<TResponse>(request);
+            var future = _executor.Submit<T, TResponse>(request);
             future.Wait();
             if (future.Exception != null)
                 throw new ApplicationException("Ucs request execution exception.", future.Exception);
@@ -72,7 +73,7 @@ namespace UgCS.SDK.Examples.Common
         public void Subscribe(EventSubscriptionWrapper subscription, NotificationHandler handler,
             out SubscriptionToken token)
         {
-            var resp = Execute<SubscribeEventResponse>(
+            var resp = Execute<SubscribeEventRequest, SubscribeEventResponse>(
                 new SubscribeEventRequest
                 {
                     ClientId = this.ClientId,
@@ -104,7 +105,7 @@ namespace UgCS.SDK.Examples.Common
                 AuthorizeHciRequest request = new AuthorizeHciRequest();
                 request.ClientId = -1;
                 request.Locale = "en-US";
-                var future = executor.Submit<AuthorizeHciResponse>(request);
+                var future = executor.Submit<AuthorizeHciRequest, AuthorizeHciResponse>(request);
                 future.Wait();
                 AuthorizeHciResponse AuthorizeHciResponse = future.Value;
                 clientId = AuthorizeHciResponse.ClientId;
@@ -114,7 +115,7 @@ namespace UgCS.SDK.Examples.Common
                 loginRequest.UserLogin = login;
                 loginRequest.UserPassword = password;
                 loginRequest.ClientId = clientId;
-                var loginResponcetask = executor.Submit<LoginResponse>(loginRequest);
+                var loginResponcetask = executor.Submit<LoginRequest, LoginResponse>(loginRequest);
                 loginResponcetask.Wait();
             }
             catch

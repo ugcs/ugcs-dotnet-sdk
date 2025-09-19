@@ -1,4 +1,5 @@
 ﻿using CalculatedProperties;
+using Com.Ugcs.Ucs.Proto;
 using MapControl;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UgCS.SDK.Examples.Common;
-using UGCS.Sdk.Protocol;
-using UGCS.Sdk.Protocol.Encoding;
 using static UgCS.SDK.Examples.Common.TelemetryUtils;
 
 namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.ViewModels

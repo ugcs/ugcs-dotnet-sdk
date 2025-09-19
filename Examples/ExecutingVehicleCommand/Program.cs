@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
+﻿using Com.Ugcs.Ucs.Proto;
+using System.Diagnostics;
 using System.Linq;
 using UgCS.SDK.Examples.Common;
-using UGCS.Sdk.Protocol.Encoding;
 
 using (var ucs = UcsFacade.connectToUcs("localhost"))
 {
@@ -49,10 +49,10 @@ using (var ucs = UcsFacade.connectToUcs("localhost"))
 
 
             req.Vehicles.Add(selectedVehicle);
-            var response = ucs.Execute<SendCommandResponse>(req);
+            var response = ucs.Execute<SendCommandRequest, SendCommandResponse>(req);
             var commandResult = response.CommandResults.Single();
             Console.WriteLine("Execution status: " + commandResult.CommandStatus);
-            if (commandResult.ErrorMessageSpecified)
+            if (commandResult.HasErrorMessage)
                 Console.WriteLine(commandResult.ErrorMessage);
         }
         catch (Exception ex)

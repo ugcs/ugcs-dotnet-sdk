@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Com.Ugcs.Ucs.Proto;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using UGCS.Sdk.Protocol.Encoding;
-using Action = UGCS.Sdk.Protocol.Encoding.Action;
+using Action = Com.Ugcs.Ucs.Proto.Action;
 
 namespace UgCS.SDK.Examples.Common
 {
@@ -16,7 +16,7 @@ namespace UgCS.SDK.Examples.Common
                 Route = r
             };
 
-            var res = ucs.Execute<ProcessRouteResponse>(req);
+            var res = ucs.Execute<ProcessRouteRequest, ProcessRouteResponse>(req);
             return res.ProcessedRoute;
         }
 
@@ -31,8 +31,8 @@ namespace UgCS.SDK.Examples.Common
 
             foreach (ProcessedSegment segment in route.Segments)
             {
-                if (segment == null || !segment.StatusSpecified ||
-                    segment.Status == RouteProcessingStatus.RPS_INVALID)
+                if (segment == null || !segment.HasStatus ||
+                    segment.Status == RouteProcessingStatus.RpsInvalid)
                 {
                     continue;
                 }
@@ -57,7 +57,7 @@ namespace UgCS.SDK.Examples.Common
         {
             foreach (var s in route.Segments)
             {
-                if (s.StatusSpecified && s.Status == RouteProcessingStatus.RPS_INVALID)
+                if (s.HasStatus && s.Status == RouteProcessingStatus.RpsInvalid)
                     return true;
             }
             return false;

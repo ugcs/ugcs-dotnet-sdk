@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Com.Ugcs.Ucs.Proto;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -8,7 +9,6 @@ using System.Windows;
 using System.Windows.Input;
 using UgCS.SDK.Examples.Common;
 using UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Views;
-using UGCS.Sdk.Protocol.Encoding;
 
 namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Commands
 {
@@ -40,7 +40,7 @@ namespace UgCS.SDK.Examples.UploadRouteFromSelectedWaypoint.Commands
             ProcessedRoute processedRoute;
             try
             {
-                var selectedRoute = _ucs.Get<Route>(selectedRouteId);
+                var selectedRoute = _ucs.GetRoute(selectedRouteId);
                 processedRoute = _ucs.Process(selectedRoute);
             }
             catch (Exception err)
