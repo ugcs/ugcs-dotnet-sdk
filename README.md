@@ -12,8 +12,3 @@ get telemetry, create and execute missions via UgCS .NET SDK.
 
 1. Add reference to the [ugcs-dotnet-sdk](https://www.nuget.org/packages/ugcs-dotnet-sdk/) package.
 2. See [examples](https://github.com/ugcs/ugcs-dotnet-sdk/tree/master/Examples) to understand UgCS .NET SDK basics. 
-
-
-## Docs
-
-You could find the latest documentation for .NET SDK [there](https://ugcs.github.io/dot-net-sdk/).
